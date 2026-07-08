@@ -18,6 +18,56 @@ function applyAptoButtonOptions(root = document) {
     if (button.dataset.aptoActiveStroke) {
       button.style.setProperty('--apto-3d-active-stroke', button.dataset.aptoActiveStroke);
     }
+
+    applyAptoActiveSvgPaint(button, button.classList.contains('is-active'));
+  });
+}
+
+function setSvgPaintProperty(element, property, value) {
+  const savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
+  const valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
+  const priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+
+  if (element.dataset[savedKey] !== 'true') {
+    element.dataset[savedKey] = 'true';
+    element.dataset[valueKey] = element.style.getPropertyValue(property);
+    element.dataset[priorityKey] = element.style.getPropertyPriority(property);
+  }
+
+  element.style.setProperty(property, value, 'important');
+}
+
+function restoreSvgPaintProperty(element, property) {
+  const savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
+  const valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
+  const priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+
+  if (element.dataset[savedKey] !== 'true') return;
+
+  const originalValue = element.dataset[valueKey] || '';
+  const originalPriority = element.dataset[priorityKey] || '';
+
+  if (originalValue) {
+    element.style.setProperty(property, originalValue, originalPriority);
+  } else {
+    element.style.removeProperty(property);
+  }
+}
+
+function applyAptoActiveSvgPaint(button, active) {
+  const activeFill = button.dataset.aptoActiveFill;
+  const activeStroke = button.dataset.aptoActiveStroke;
+
+  if (!activeFill && !activeStroke) return;
+
+  button.querySelectorAll('svg, svg *').forEach((element) => {
+    if (active) {
+      if (activeFill) setSvgPaintProperty(element, 'fill', activeFill);
+      if (activeStroke) setSvgPaintProperty(element, 'stroke', activeStroke);
+    } else {
+      if (activeFill) restoreSvgPaintProperty(element, 'fill');
+      if (activeStroke) restoreSvgPaintProperty(element, 'stroke');
+    }
   });
 }
 
@@ -79,6 +129,7 @@ export function initApto3DButtons(root = document) {
     button.addEventListener('click', () => {
       const active = button.classList.toggle('is-active');
       button.setAttribute('aria-pressed', String(active));
+      applyAptoActiveSvgPaint(button, active);
     });
   });
 }

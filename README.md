@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.4/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.4/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.5/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.5/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -202,6 +202,8 @@ For an SVG that should change both fill and stroke:
 </button>
 ```
 
+When active, the JS sets SVG fill/stroke directly on the SVG and child shapes, so normal SVG `fill` and `stroke` attributes are overridden.
+
 For an `<i>` icon:
 
 ```html
@@ -259,14 +261,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.5
+git tag v0.1.6
 git push origin main
-git push origin v0.1.5
+git push origin v0.1.6
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.5/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.5/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.6/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.6/dist/apto-3d-buttons.global.js" defer></script>
 ```

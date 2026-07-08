@@ -73,6 +73,8 @@
       if (button.dataset.aptoActiveStroke) {
         button.style.setProperty('--apto-3d-active-stroke', button.dataset.aptoActiveStroke);
       }
+
+      applyAptoActiveSvgPaint(button, button.classList.contains('is-active'));
     });
 
     root.querySelectorAll(TOGGLE_SELECTOR).forEach(function (button) {
@@ -82,6 +84,7 @@
       button.addEventListener('click', function () {
         var active = button.classList.toggle('is-active');
         button.setAttribute('aria-pressed', String(active));
+        applyAptoActiveSvgPaint(button, active);
       });
     });
 
@@ -95,6 +98,54 @@
           successMs: button.dataset.aptoSuccessMs
         });
       });
+    });
+  }
+
+  function setSvgPaintProperty(element, property, value) {
+    var savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
+    var valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
+    var priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+
+    if (element.dataset[savedKey] !== 'true') {
+      element.dataset[savedKey] = 'true';
+      element.dataset[valueKey] = element.style.getPropertyValue(property);
+      element.dataset[priorityKey] = element.style.getPropertyPriority(property);
+    }
+
+    element.style.setProperty(property, value, 'important');
+  }
+
+  function restoreSvgPaintProperty(element, property) {
+    var savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
+    var valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
+    var priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+
+    if (element.dataset[savedKey] !== 'true') return;
+
+    var originalValue = element.dataset[valueKey] || '';
+    var originalPriority = element.dataset[priorityKey] || '';
+
+    if (originalValue) {
+      element.style.setProperty(property, originalValue, originalPriority);
+    } else {
+      element.style.removeProperty(property);
+    }
+  }
+
+  function applyAptoActiveSvgPaint(button, active) {
+    var activeFill = button.dataset.aptoActiveFill;
+    var activeStroke = button.dataset.aptoActiveStroke;
+
+    if (!activeFill && !activeStroke) return;
+
+    button.querySelectorAll('svg, svg *').forEach(function (element) {
+      if (active) {
+        if (activeFill) setSvgPaintProperty(element, 'fill', activeFill);
+        if (activeStroke) setSvgPaintProperty(element, 'stroke', activeStroke);
+      } else {
+        if (activeFill) restoreSvgPaintProperty(element, 'fill');
+        if (activeStroke) restoreSvgPaintProperty(element, 'stroke');
+      }
     });
   }
 
