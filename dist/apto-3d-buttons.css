@@ -1,0 +1,360 @@
+/* Apto 3D Buttons
+   Reusable, shadow-free button component.
+   Required markup:
+   .apto-3d-button > .apto-3d-button__content > .apto-3d-button__text
+*/
+
+.apto-3d-button {
+  --apto-3d-bg: hsl(345deg 100% 47%);
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: hsl(340deg 100% 32%);
+  --apto-3d-focus: hsl(345deg 100% 38%);
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-spinner-size: 16px;
+  --apto-3d-spinner-stroke: 2px;
+  --apto-3d-success-mark: #ffffff;
+  --apto-3d-success-width: 13px;
+  --apto-3d-success-height: 8px;
+  --apto-3d-success-stroke: 2.5px;
+  --apto-3d-padding: 12px 42px;
+  --apto-3d-radius: 12px;
+  --apto-3d-lift: 6px;
+  --apto-3d-pressed-edge: 2px;
+  --apto-3d-current-lift: var(--apto-3d-lift);
+  --apto-3d-font-size: 1.25rem;
+
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  border-radius: var(--apto-3d-radius);
+  background: var(--apto-3d-edge);
+  color: var(--apto-3d-text);
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  outline-offset: 4px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.apto-3d-button *,
+.apto-3d-button *::before,
+.apto-3d-button *::after {
+  box-sizing: border-box;
+}
+
+.apto-3d-button:focus { outline: none; }
+
+.apto-3d-button:focus-visible {
+  outline: 2px solid var(--apto-3d-focus);
+  outline-offset: 4px;
+  border-radius: var(--apto-3d-radius);
+}
+
+.apto-3d-button:disabled:not(.is-loading):not(.is-success),
+.apto-3d-button[aria-disabled="true"]:not(.is-loading):not(.is-success) {
+  cursor: default;
+  opacity: 0.62;
+}
+
+.apto-3d-button__content {
+  position: relative;
+  display: block;
+  padding: var(--apto-3d-padding);
+  border-radius: var(--apto-3d-radius);
+  background: var(--apto-3d-bg);
+  color: var(--apto-3d-text);
+  font-size: var(--apto-3d-font-size);
+  line-height: 1;
+  transform: translateY(calc(var(--apto-3d-current-lift) * -1));
+  transition:
+    background-color 120ms ease,
+    transform 100ms ease;
+}
+
+.apto-3d-button__text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: inherit;
+  transition: opacity 150ms ease;
+}
+
+.apto-3d-button:hover:not(:disabled):not([aria-disabled="true"]) .apto-3d-button__content {
+  background: var(--apto-3d-bg-hover);
+}
+
+.apto-3d-button:active:not(:disabled):not([aria-disabled="true"]),
+.apto-3d-button.is-loading {
+  --apto-3d-current-lift: var(--apto-3d-pressed-edge);
+}
+
+.apto-3d-button.is-loading {
+  pointer-events: none;
+}
+
+.apto-3d-button.is-loading .apto-3d-button__text,
+.apto-3d-button.is-success .apto-3d-button__text {
+  opacity: 0;
+}
+
+.apto-3d-button::before,
+.apto-3d-button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(50% - var(--apto-3d-current-lift));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.apto-3d-button::before {
+  width: var(--apto-3d-spinner-size);
+  height: var(--apto-3d-spinner-size);
+  margin: calc(var(--apto-3d-spinner-size) / -2) 0 0 calc(var(--apto-3d-spinner-size) / -2);
+  border: var(--apto-3d-spinner-stroke) solid var(--apto-3d-spinner-track);
+  border-top-color: var(--apto-3d-text);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.78);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.apto-3d-button.is-loading::before {
+  opacity: 1;
+  transform: scale(1);
+  animation: apto-3d-spin 650ms linear infinite;
+}
+
+@keyframes apto-3d-spin {
+  to { transform: scale(1) rotate(360deg); }
+}
+
+.apto-3d-button::after {
+  width: var(--apto-3d-success-width);
+  height: var(--apto-3d-success-height);
+  margin: calc(var(--apto-3d-success-height) / -1.4) 0 0 calc(var(--apto-3d-success-width) / -2);
+  border-left: var(--apto-3d-success-stroke) solid var(--apto-3d-success-mark);
+  border-bottom: var(--apto-3d-success-stroke) solid var(--apto-3d-success-mark);
+  opacity: 0;
+  transform: translateY(-2px) rotate(-45deg) scale(0.45);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.apto-3d-button.is-success::after {
+  opacity: 1;
+  transform: translateY(-2px) rotate(-45deg) scale(1);
+  transition: opacity 150ms ease 50ms, transform 300ms cubic-bezier(.34, 1.56, .64, 1) 50ms;
+}
+
+.apto-3d-button--rose {
+  --apto-3d-bg: hsl(345deg 100% 47%);
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: hsl(340deg 100% 32%);
+  --apto-3d-focus: hsl(345deg 100% 38%);
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--red {
+  --apto-3d-bg: #ef4444;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #991b1b;
+  --apto-3d-focus: #dc2626;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--orange {
+  --apto-3d-bg: #f97316;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #9a3412;
+  --apto-3d-focus: #ea580c;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--amber {
+  --apto-3d-bg: #f59e0b;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #2b1600;
+  --apto-3d-edge: #92400e;
+  --apto-3d-focus: #d97706;
+  --apto-3d-spinner-track: rgba(43, 22, 0, 0.28);
+  --apto-3d-success-mark: #2b1600;
+}
+
+.apto-3d-button--primary {
+  --apto-3d-bg: #5b7cff;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #3348b4;
+  --apto-3d-focus: #2d4bff;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--blue {
+  --apto-3d-bg: #5b7cff;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #3348b4;
+  --apto-3d-focus: #2d4bff;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--success,
+.apto-3d-button--green {
+  --apto-3d-bg: #22b573;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #116e45;
+  --apto-3d-focus: #168f5a;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--cyan {
+  --apto-3d-bg: #0891b2;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #155e75;
+  --apto-3d-focus: #0e7490;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--violet {
+  --apto-3d-bg: #8b5cf6;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #5b21b6;
+  --apto-3d-focus: #7c3aed;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--slate {
+  --apto-3d-bg: #475569;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #1e293b;
+  --apto-3d-focus: #334155;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--danger {
+  --apto-3d-bg: #ef4b4b;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #ffffff;
+  --apto-3d-edge: #941d1d;
+  --apto-3d-focus: #e03131;
+  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+  --apto-3d-success-mark: #ffffff;
+}
+
+.apto-3d-button--ghost {
+  --apto-3d-bg: #ffffff;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #4d67df;
+  --apto-3d-edge: #cfd8ff;
+  --apto-3d-focus: #5b7cff;
+}
+
+.apto-3d-button--like {
+  --apto-3d-bg: #ffffff;
+  --apto-3d-bg-hover: var(--apto-3d-bg);
+  --apto-3d-text: #e82f58;
+  --apto-3d-edge: #f6ccd7;
+  --apto-3d-focus: #ef4467;
+}
+
+.apto-3d-button--sm {
+  --apto-3d-padding: 9px 28px;
+  --apto-3d-font-size: 1rem;
+  --apto-3d-radius: 8px;
+  --apto-3d-lift: 4px;
+  --apto-3d-pressed-edge: 1.5px;
+}
+
+.apto-3d-button--lg {
+  --apto-3d-padding: 14px 48px;
+  --apto-3d-font-size: 1.375rem;
+  --apto-3d-radius: 12px;
+  --apto-3d-lift: 6px;
+  --apto-3d-pressed-edge: 2.5px;
+}
+
+.apto-3d-button--icon {
+  --apto-3d-padding: 0;
+  --apto-3d-radius: 12px;
+  --apto-3d-font-size: 1rem;
+  --apto-3d-spinner-size: 18px;
+  --apto-3d-success-width: 15px;
+  --apto-3d-success-height: 9px;
+  width: 52px;
+  height: 52px;
+  vertical-align: middle;
+}
+
+.apto-3d-button--icon .apto-3d-button__content {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.apto-3d-button--icon .apto-3d-button__text {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.apto-3d-icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.apto-3d-button--icon .apto-3d-icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.25;
+}
+
+.apto-3d-button--icon .apto-3d-icon[fill="currentColor"] {
+  width: 20px;
+  height: 20px;
+}
+
+.apto-3d-button--like .heart-icon {
+  fill: none;
+  transition: fill 120ms ease;
+}
+
+.apto-3d-button--like.is-active .heart-icon {
+  fill: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apto-3d-button,
+  .apto-3d-button *,
+  .apto-3d-button::before,
+  .apto-3d-button::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}

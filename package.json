@@ -1,0 +1,31 @@
+{
+  "name": "apto-3d-buttons",
+  "version": "0.1.0",
+  "description": "Reusable, shadow-free Apto 3D button component.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greenocide/apto-3d-buttons.git"
+  },
+  "homepage": "https://github.com/Greenocide/apto-3d-buttons#readme",
+  "bugs": {
+    "url": "https://github.com/Greenocide/apto-3d-buttons/issues"
+  },
+  "main": "./src/apto-3d-buttons.js",
+  "module": "./src/apto-3d-buttons.js",
+  "style": "./dist/apto-3d-buttons.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": "./src/apto-3d-buttons.js",
+    "./css": "./dist/apto-3d-buttons.css",
+    "./global": "./dist/apto-3d-buttons.global.js",
+    "./js": "./src/apto-3d-buttons.js"
+  },
+  "scripts": {
+    "demo": "npx serve ."
+  }
+}

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apto 3D Buttons - Gallery</title>
+<link rel="stylesheet" href="./src/apto-3d-buttons.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: #eef0f4;
+    color: #2a2d34;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  .page h1 {
+    font-size: 26px;
+    margin: 0 0 6px;
+    letter-spacing: 0;
+  }
+
+  .page > p.lede {
+    margin: 0 0 44px;
+    color: #6b7080;
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+
+  section + section { margin-top: 40px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #858b9b;
+    margin: 0 0 16px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .note {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: #6b7080;
+    line-height: 1.5;
+    max-width: 58ch;
+  }
+
+  .note code,
+  .lede code {
+    background: #e2e5ec;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<main class="page">
+  <h1>Apto 3D Buttons</h1>
+  <p class="lede">A reusable <code>.apto-3d-button</code> component with a flatter 3D edge, no drop shadows, icon states, toggles, and a loading to success flow.</p>
+
+  <section>
+    <p class="section-label">Text buttons</p>
+    <div class="row">
+      <button class="apto-3d-button" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Default</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--primary" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Primary</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--success" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Success</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--danger" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Delete</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--ghost" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Ghost</span></span>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Color presets</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--rose apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Rose</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--red apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Red</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--orange apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Orange</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--amber apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Amber</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--green apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Green</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--cyan apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Cyan</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--blue apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Blue</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--violet apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Violet</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--slate apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Slate</span></span>
+      </button>
+    </div>
+    <p class="note">Preset color classes only set CSS variables, so they compose with size, icon, loading, and custom state classes.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Sizes</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--sm" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Small</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--primary" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Default</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--success apto-3d-button--lg" type="button">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Large</span></span>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Icon + label</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--ghost" type="button">
+        <span class="apto-3d-button__content">
+          <span class="apto-3d-button__text">
+            <svg class="apto-3d-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+            Download
+          </span>
+        </span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--primary" type="button">
+        <span class="apto-3d-button__content">
+          <span class="apto-3d-button__text">
+            <svg class="apto-3d-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8V4z"/></svg>
+            Play
+          </span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Icon-only</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--icon" type="button" aria-label="Add">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <svg class="apto-3d-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </span></span>
+      </button>
+
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle>
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.7-9C.8 8 2.3 4 6 4c2 0 4 1.5 6 4 2-2.5 4-4 6-4 3.7 0 5.2 4 3.7 8-2.5 4.65-9.7 9-9.7 9z"/></svg>
+        </span></span>
+      </button>
+
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--danger" type="button" aria-label="Delete">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <svg class="apto-3d-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/></svg>
+        </span></span>
+      </button>
+
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--primary" type="button" aria-label="Play">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <svg class="apto-3d-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8V4z"/></svg>
+        </span></span>
+      </button>
+    </div>
+    <p class="note">The heart button uses <code>data-apto-toggle</code>. The module toggles <code>.is-active</code> and keeps <code>aria-pressed</code> in sync.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Loading to success</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--primary" type="button" id="submitBtn">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Submit</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--primary" type="button" id="iconSubmitBtn" aria-label="Submit">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <svg class="apto-3d-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span></span>
+      </button>
+    </div>
+    <p class="note">
+      The same loading and success helper works for text buttons and icon-only submit buttons. The spinner and checkmark are pure CSS pseudo-elements, so no markup swaps are needed.
+    </p>
+  </section>
+</main>
+
+<script type="module">
+  import { completeButtonWithSuccess, initApto3DButtons } from './src/apto-3d-buttons.js';
+
+  initApto3DButtons();
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.addEventListener('click', () => {
+    completeButtonWithSuccess(submitBtn, {
+      loadingMs: 1200,
+      successMs: 1000
+    });
+  });
+
+  const iconSubmitBtn = document.getElementById('iconSubmitBtn');
+  iconSubmitBtn.addEventListener('click', () => {
+    completeButtonWithSuccess(iconSubmitBtn, {
+      loadingMs: 900,
+      successMs: 900
+    });
+  });
+</script>
+
+</body>
+</html>
