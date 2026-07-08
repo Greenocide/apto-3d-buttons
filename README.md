@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.6/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.6/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -248,6 +248,40 @@ Create your own class by setting CSS variables:
 </button>
 ```
 
+## Account Hub Admin
+
+For Account Hub admin screens, load the normal Apto files first, then the scoped Account Hub CSS:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/account-hub-admin.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.global.js" defer></script>
+```
+
+Scope the admin screen with `account-hub-admin`:
+
+```html
+<div class="account-hub-admin">
+  <button class="account-hub-button account-hub-button--primary" type="button">
+    Fallback Button
+  </button>
+
+  <button class="account-hub-button account-hub-button--success apto-3d-button" type="button">
+    <span class="apto-3d-button__content">
+      <span class="apto-3d-button__text">Apto Success</span>
+    </span>
+  </button>
+
+  <button class="account-hub-button account-hub-button--ghost apto-3d-button" type="button">
+    <span class="apto-3d-button__content">
+      <span class="apto-3d-button__text">Apto Ghost</span>
+    </span>
+  </button>
+</div>
+```
+
+The fallback styles only target `.account-hub-button` elements that do not have `.apto-3d-button`. Once Apto is present, the Account Hub file only sets CSS variables, so `--success`, `--ghost`, and the normal color variants still work.
+
 ## Release
 
 This library is served by jsDelivr from the public GitHub repo:
@@ -261,14 +295,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.7
+git tag v0.1.8
 git push origin main
-git push origin v0.1.7
+git push origin v0.1.8
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.7/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.8/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.8/dist/apto-3d-buttons.global.js" defer></script>
 ```

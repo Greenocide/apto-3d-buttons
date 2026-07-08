@@ -1,6 +1,6 @@
 {
   "name": "apto-3d-buttons",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Reusable, shadow-free Apto 3D button component.",
   "type": "module",
   "license": "MIT",
@@ -21,6 +21,7 @@
   ],
   "exports": {
     ".": "./src/apto-3d-buttons.js",
+    "./account-hub-admin": "./dist/account-hub-admin.css",
     "./css": "./dist/apto-3d-buttons.css",
     "./global": "./dist/apto-3d-buttons.global.js",
     "./js": "./src/apto-3d-buttons.js"
