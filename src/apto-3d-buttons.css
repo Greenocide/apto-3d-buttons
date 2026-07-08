@@ -10,6 +10,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: hsl(340deg 100% 32%);
   --apto-3d-focus: hsl(345deg 100% 38%);
+  --apto-3d-active-bg: var(--apto-3d-text);
+  --apto-3d-active-text: var(--apto-3d-bg);
+  --apto-3d-active-edge: var(--apto-3d-focus);
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-spinner-size: 16px;
   --apto-3d-spinner-stroke: 2px;
@@ -23,6 +26,7 @@
   --apto-3d-pressed-edge: 2px;
   --apto-3d-current-lift: var(--apto-3d-lift);
   --apto-3d-font-size: 1.25rem;
+  --apto-3d-icon-size: 22px;
 
   appearance: none;
   box-sizing: border-box;
@@ -40,6 +44,7 @@
   outline-offset: 4px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color 120ms ease;
 }
 
 .apto-3d-button *,
@@ -74,6 +79,7 @@
   transform: translateY(calc(var(--apto-3d-current-lift) * -1));
   transition:
     background-color 120ms ease,
+    color 120ms ease,
     transform 100ms ease;
 }
 
@@ -95,6 +101,15 @@
 .apto-3d-button:active:not(:disabled):not([aria-disabled="true"]),
 .apto-3d-button.is-loading {
   --apto-3d-current-lift: var(--apto-3d-pressed-edge);
+}
+
+.apto-3d-button.is-active {
+  background: var(--apto-3d-active-edge);
+}
+
+.apto-3d-button.is-active .apto-3d-button__content {
+  background: var(--apto-3d-active-bg);
+  color: var(--apto-3d-active-text);
 }
 
 .apto-3d-button.is-loading {
@@ -280,6 +295,9 @@
   --apto-3d-text: #e82f58;
   --apto-3d-edge: #f6ccd7;
   --apto-3d-focus: #ef4467;
+  --apto-3d-active-bg: #e82f58;
+  --apto-3d-active-text: #ffffff;
+  --apto-3d-active-edge: #9f1239;
 }
 
 .apto-3d-button--sm {
@@ -302,6 +320,7 @@
   --apto-3d-padding: 0;
   --apto-3d-radius: 12px;
   --apto-3d-font-size: 1rem;
+  --apto-3d-icon-size: 22px;
   --apto-3d-spinner-size: 18px;
   --apto-3d-success-width: 15px;
   --apto-3d-success-height: 9px;
@@ -329,24 +348,96 @@
   flex: 0 0 auto;
 }
 
-.apto-3d-button--icon .apto-3d-icon {
-  width: 22px;
-  height: 22px;
+.apto-3d-button--icon :is(.apto-3d-icon, svg, img, i) {
+  display: block;
+  flex: 0 0 auto;
+  width: var(--apto-3d-icon-size);
+  height: var(--apto-3d-icon-size);
+  max-width: var(--apto-3d-icon-size);
+  max-height: var(--apto-3d-icon-size);
+  line-height: var(--apto-3d-icon-size);
+  object-fit: contain;
+  overflow: hidden;
+  color: currentColor;
+}
+
+.apto-3d-button--icon :is(svg, img) {
+  aspect-ratio: 1;
+}
+
+.apto-3d-button--icon svg {
   stroke-width: 2.25;
 }
 
-.apto-3d-button--icon .apto-3d-icon[fill="currentColor"] {
+.apto-3d-button--icon i {
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-size: calc(var(--apto-3d-icon-size) * 0.88);
+  text-align: center;
+}
+
+.apto-3d-button--icon .apto-3d-icon[fill="currentColor"],
+.apto-3d-button--icon svg[fill="currentColor"] {
   width: 20px;
   height: 20px;
 }
 
 .apto-3d-button--like .heart-icon {
   fill: none;
-  transition: fill 120ms ease;
+  transition: fill 120ms ease, color 120ms ease;
 }
 
 .apto-3d-button--like.is-active .heart-icon {
   fill: currentColor;
+}
+
+.apto-3d-button--switch {
+  --apto-3d-padding: 0;
+  --apto-3d-radius: 999px;
+  --apto-3d-bg: #cbd5e1;
+  --apto-3d-edge: #64748b;
+  --apto-3d-text: #ffffff;
+  --apto-3d-focus: #64748b;
+  --apto-3d-active-bg: #22b573;
+  --apto-3d-active-text: #ffffff;
+  --apto-3d-active-edge: #116e45;
+  width: 76px;
+  height: 42px;
+}
+
+.apto-3d-button--switch .apto-3d-button__content {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.apto-3d-button--switch .apto-3d-button__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.apto-3d-button--switch .apto-3d-button__content::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #ffffff;
+  transform: translateY(-50%);
+  transition: left 140ms ease, background-color 140ms ease;
+}
+
+.apto-3d-button--switch.is-active .apto-3d-button__content::after {
+  left: 40px;
 }
 
 @media (prefers-reduced-motion: reduce) {

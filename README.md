@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -76,6 +76,8 @@ Available size/layout classes:
 
 ## Icon Button
 
+Icon buttons contain `svg`, `i`, and `img` elements automatically. For SVG active-color swapping, build the icon with `currentColor`.
+
 ```html
 <button class="apto-3d-button apto-3d-button--icon apto-3d-button--blue" type="button" aria-label="Play">
   <span class="apto-3d-button__content">
@@ -84,6 +86,38 @@ Available size/layout classes:
         <path d="M6 4l14 8-14 8V4z"></path>
       </svg>
     </span>
+  </span>
+</button>
+```
+
+Plain `<i>` and `<img>` icons are also contained:
+
+```html
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--amber" type="button" aria-label="Favorite">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">
+      <i aria-hidden="true">★</i>
+    </span>
+  </span>
+</button>
+
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--cyan" type="button" aria-label="Image icon">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">
+      <img src="/icon.svg" alt="">
+    </span>
+  </span>
+</button>
+```
+
+## Switch
+
+Use `apto-3d-button--switch` with `data-apto-toggle`:
+
+```html
+<button class="apto-3d-button apto-3d-button--switch" type="button" aria-label="Enable setting" aria-pressed="false" data-apto-toggle>
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Enable setting</span>
   </span>
 </button>
 ```
@@ -148,6 +182,8 @@ Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` upda
 </button>
 ```
 
+Active buttons swap to `--apto-3d-active-bg`, `--apto-3d-active-text`, and `--apto-3d-active-edge`. By default this swaps the button face and icon/text colors. Override those variables in a preset when you want a custom active look.
+
 ## Custom Preset
 
 Create your own class by setting CSS variables:
@@ -185,14 +221,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.1
+git tag v0.1.2
 git push origin main
-git push origin v0.1.1
+git push origin v0.1.2
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.global.js" defer></script>
 ```

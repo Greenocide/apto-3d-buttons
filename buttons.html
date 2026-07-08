@@ -195,8 +195,33 @@
           <svg class="apto-3d-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8V4z"/></svg>
         </span></span>
       </button>
+
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--amber" type="button" aria-label="Favorite">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <i aria-hidden="true">★</i>
+        </span></span>
+      </button>
+
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--cyan" type="button" aria-label="Image icon">
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">
+          <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='14' rx='3' fill='white'/%3E%3Ccircle cx='9' cy='10' r='2' fill='%230891b2'/%3E%3Cpath d='M6 17l4-4 3 3 2-2 3 3' fill='none' stroke='%230891b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+        </span></span>
+      </button>
     </div>
-    <p class="note">The heart button uses <code>data-apto-toggle</code>. The module toggles <code>.is-active</code> and keeps <code>aria-pressed</code> in sync.</p>
+    <p class="note">Icon buttons contain plain <code>svg</code>, <code>i</code>, and <code>img</code> elements. The heart button uses <code>data-apto-toggle</code>; active state swaps the button/icon colors when the icon uses <code>currentColor</code>.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Switch</p>
+    <div class="row">
+      <button class="apto-3d-button apto-3d-button--switch" type="button" aria-label="Enable setting" aria-pressed="false" data-apto-toggle>
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Enable setting</span></span>
+      </button>
+      <button class="apto-3d-button apto-3d-button--switch is-active" type="button" aria-label="Enabled setting" aria-pressed="true" data-apto-toggle>
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Enabled setting</span></span>
+      </button>
+    </div>
+    <p class="note">A switch is just a button with <code>apto-3d-button--switch</code> and <code>data-apto-toggle</code>, so it stays accessible and shares the same active-state logic.</p>
   </section>
 
   <section>
