@@ -1,157 +1,41 @@
 # Apto 3D Buttons
 
-Reusable, shadow-free push buttons for static sites and app frontends. The CSS follows the classic `pushable` plus raised `front` pattern; the small JavaScript module is only for optional toggle, loading, and success states.
+Reusable push buttons loaded from jsDelivr. Include both files on every site: the CSS draws the buttons, and the JS initializes loading/toggle helpers.
 
-## Files
+## Install
 
-- `src/apto-3d-buttons.css` - source button styles and variants.
-- `src/apto-3d-buttons.js` - optional state helpers.
-- `dist/apto-3d-buttons.css` - CDN/plain-browser CSS build.
-- `dist/apto-3d-buttons.global.js` - browser/WordPress-friendly script.
-- `buttons.html` - local gallery/demo.
-- `examples/cdn-usage.html` - CDN/static-host usage example.
-
-## Quick Use
-
-Add the CSS to your page:
-
-```html
-<link rel="stylesheet" href="/path/to/dist/apto-3d-buttons.css">
-```
-
-Use the required nested markup. `.apto-3d-button` is the pushable back layer; `.apto-3d-button__content` is the raised front layer.
-
-```html
-<button class="apto-3d-button" type="button">
-  <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Push me</span>
-  </span>
-</button>
-```
-
-For optional JS helpers:
-
-```html
-<script type="module">
-  import { completeButtonWithSuccess, initApto3DButtons } from '/path/to/apto-3d-buttons.js';
-
-  initApto3DButtons();
-
-  document.querySelector('#submitBtn').addEventListener('click', (event) => {
-    completeButtonWithSuccess(event.currentTarget);
-  });
-</script>
-```
-
-## Use As A Private Package
-
-After this folder is pushed to a private GitHub repo, install it in another project:
-
-```bash
-npm install git+ssh://git@github.com:YOUR_USER/apto-3d-buttons.git
-```
-
-Import the CSS in your app entry:
-
-```js
-import 'apto-3d-buttons/css';
-```
-
-Import optional helpers from the package root:
-
-```js
-import { completeButtonWithSuccess, initApto3DButtons } from 'apto-3d-buttons';
-```
-
-For plain HTML sites, copy `src/apto-3d-buttons.css` and `src/apto-3d-buttons.js` into your assets folder and link them directly.
-
-For plain HTML, WordPress Custom HTML blocks, Webflow embeds, Shopify theme snippets, etc., use the global script instead of the ES module:
-
-```html
-<link rel="stylesheet" href="/assets/apto-3d-buttons/apto-3d-buttons.css">
-<script src="/assets/apto-3d-buttons/apto-3d-buttons.global.js" defer></script>
-```
-
-## CDN-Style Use
-
-This repo is designed to be used from a public GitHub repo through jsDelivr.
+Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.css">
 <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
-Use a version tag such as `v0.1.0` in production so site builds do not change unexpectedly. During quick testing, you can point at `main`:
+Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@main/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@main/dist/apto-3d-buttons.global.js" defer></script>
-```
-
-Private GitHub repos do not work as public CDN files for normal site visitors. The repo must be public for jsDelivr to serve it to websites.
-
-### cdnjs
-
-cdnjs is curated, not a general file uploader and not the same thing as jsDelivr. To get listed there, the library needs to be public/open-source and accepted into the cdnjs package registry. The normal flow is:
-
-1. Publish the library publicly on npm or GitHub.
-2. Make sure releases include the files in `dist/`.
-3. Add a library package config in the `cdnjs/packages` repo.
-4. Open a pull request and wait for review/acceptance.
-
-For day-to-day use on WordPress or client sites, jsDelivr is simpler because the URLs work as soon as the public GitHub repo and tag exist.
-
-## WordPress
-
-Add the CDN/static-host tags to your site header/footer, then paste button markup into a Custom HTML block:
+## Basic Button
 
 ```html
 <button class="apto-3d-button apto-3d-button--violet" type="button">
   <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Book now</span>
+    <span class="apto-3d-button__text">Push me</span>
   </span>
 </button>
 ```
 
-For a WordPress loading demo button, add `data-apto-complete`. The global script auto-initializes this on page load:
+## Preset Colors
+
+Use one color class with the base class:
 
 ```html
-<button class="apto-3d-button apto-3d-button--green" type="button" data-apto-complete data-apto-loading-ms="900" data-apto-success-ms="900">
+<button class="apto-3d-button apto-3d-button--green" type="button">
   <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Submit</span>
+    <span class="apto-3d-button__text">Continue</span>
   </span>
 </button>
 ```
 
-For real form submissions, do not use `data-apto-complete`; call the helper from your form script after your AJAX request succeeds:
-
-```js
-window.Apto3DButtons.completeButtonWithSuccess(button);
-```
-
-Icon-only submit buttons use the same helper:
-
-```html
-<button class="apto-3d-button apto-3d-button--icon apto-3d-button--primary" type="button" id="iconSubmitBtn" aria-label="Submit">
-  <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">
-      <svg class="apto-3d-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">...</svg>
-    </span>
-  </span>
-</button>
-
-<script type="module">
-  import { completeButtonWithSuccess } from '/path/to/apto-3d-buttons.js';
-
-  document.querySelector('#iconSubmitBtn').addEventListener('click', (event) => {
-    completeButtonWithSuccess(event.currentTarget);
-  });
-</script>
-```
-
-## Variants
-
-Color classes:
+Available color presets:
 
 - `apto-3d-button--rose`
 - `apto-3d-button--red`
@@ -168,109 +52,147 @@ Color classes:
 - `apto-3d-button--ghost`
 - `apto-3d-button--like`
 
-Size/layout classes:
+## Sizes
+
+```html
+<button class="apto-3d-button apto-3d-button--rose apto-3d-button--sm" type="button">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Small</span>
+  </span>
+</button>
+
+<button class="apto-3d-button apto-3d-button--blue apto-3d-button--lg" type="button">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Large</span>
+  </span>
+</button>
+```
+
+Available size/layout classes:
 
 - `apto-3d-button--sm`
 - `apto-3d-button--lg`
 - `apto-3d-button--icon`
 
-State classes:
+## Icon Button
 
-- `is-active`
-- `is-loading`
-- `is-success`
+```html
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--blue" type="button" aria-label="Play">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">
+      <svg class="apto-3d-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M6 4l14 8-14 8V4z"></path>
+      </svg>
+    </span>
+  </span>
+</button>
+```
 
-Toggle buttons can use `data-apto-toggle`; `initApto3DButtons()` will toggle `is-active` and update `aria-pressed`.
+## Loading Button
+
+For a simple loading-to-success interaction, add `data-apto-complete`:
+
+```html
+<button class="apto-3d-button apto-3d-button--green" type="button" data-apto-complete>
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Submit</span>
+  </span>
+</button>
+```
+
+Optional timing:
+
+```html
+<button class="apto-3d-button apto-3d-button--green" type="button" data-apto-complete data-apto-loading-ms="1200" data-apto-success-ms="900">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Submit</span>
+  </span>
+</button>
+```
+
+For real AJAX/form logic, call the global helper yourself:
+
+```html
+<button class="apto-3d-button apto-3d-button--green" type="button" id="saveButton">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">Save</span>
+  </span>
+</button>
+
+<script>
+  document.getElementById('saveButton').addEventListener('click', async (event) => {
+    const button = event.currentTarget;
+    window.Apto3DButtons.setAptoButtonLoading(button, true);
+
+    await fetch('/your-endpoint', { method: 'POST' });
+
+    window.Apto3DButtons.setAptoButtonSuccess(button, true);
+    setTimeout(() => window.Apto3DButtons.resetAptoButton(button), 900);
+  });
+</script>
+```
+
+## Toggle Button
+
+Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` updated.
 
 ```html
 <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle>
   <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">...</span>
+    <span class="apto-3d-button__text">
+      <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="M12 21s-7.2-4.35-9.7-9C.8 8 2.3 4 6 4c2 0 4 1.5 6 4 2-2.5 4-4 6-4 3.7 0 5.2 4 3.7 8-2.5 4.65-9.7 9-9.7 9z"></path>
+      </svg>
+    </span>
   </span>
 </button>
 ```
 
-## Custom Colors
+## Custom Preset
 
-Override the CSS variables on any button or wrapper:
+Create your own class by setting CSS variables:
 
 ```html
-<button
-  class="apto-3d-button"
-  style="
-    --apto-3d-bg: #111827;
-    --apto-3d-bg-hover: #1f2937;
-    --apto-3d-edge: #4b5563;
+<style>
+  .apto-3d-button--brand {
+    --apto-3d-bg: #2563eb;
+    --apto-3d-bg-hover: var(--apto-3d-bg);
+    --apto-3d-edge: #1e3a8a;
     --apto-3d-text: #ffffff;
-  "
-  type="button"
->
+    --apto-3d-focus: #1d4ed8;
+    --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
+    --apto-3d-success-mark: #ffffff;
+  }
+</style>
+
+<button class="apto-3d-button apto-3d-button--brand" type="button">
   <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Custom</span>
+    <span class="apto-3d-button__text">Brand Button</span>
   </span>
 </button>
 ```
 
-You can also create project presets:
+## Release
 
-```css
-.apto-3d-button--brand {
-  --apto-3d-bg: #2563eb;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
-  --apto-3d-edge: #1e3a8a;
-  --apto-3d-text: #ffffff;
-  --apto-3d-focus: #1d4ed8;
-  --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
-  --apto-3d-success-mark: #ffffff;
-}
+This library is served by jsDelivr from the public GitHub repo:
+
+```text
+https://github.com/Greenocide/apto-3d-buttons
 ```
 
-Then compose it like any built-in preset:
+When files change, commit, tag a new version, and push:
 
-```html
-<button class="apto-3d-button apto-3d-button--brand apto-3d-button--lg" type="button">
-  <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Continue</span>
-  </span>
-</button>
-```
-
-Useful variables:
-
-- `--apto-3d-bg`
-- `--apto-3d-bg-hover`
-- `--apto-3d-edge`
-- `--apto-3d-text`
-- `--apto-3d-focus`
-- `--apto-3d-spinner-track`
-- `--apto-3d-spinner-size`
-- `--apto-3d-spinner-stroke`
-- `--apto-3d-success-mark`
-- `--apto-3d-success-width`
-- `--apto-3d-success-height`
-- `--apto-3d-success-stroke`
-- `--apto-3d-padding`
-- `--apto-3d-radius`
-- `--apto-3d-lift`
-- `--apto-3d-pressed-edge`
-- `--apto-3d-font-size`
-
-## Public GitHub Repo
-
-Suggested setup:
-
-```powershell
-git init
+```bash
 git add .
-git commit -m "Create reusable Apto 3D button library"
-gh repo create apto-3d-buttons --public --source=. --remote=origin --push
-git tag v0.1.0
-git push origin v0.1.0
+git commit -m "Update Apto 3D buttons"
+git tag v0.1.1
+git push origin main
+git push origin v0.1.1
 ```
 
-After the tag is pushed, use:
+Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.0/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.global.js" defer></script>
 ```
