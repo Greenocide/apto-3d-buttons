@@ -178,9 +178,9 @@
         </span></span>
       </button>
 
-      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle data-apto-active-icon="#be123c" data-apto-active-fill="#be123c" data-apto-active-stroke="#be123c">
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle>
         <span class="apto-3d-button__content"><span class="apto-3d-button__text">
-          <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.7-9C.8 8 2.3 4 6 4c2 0 4 1.5 6 4 2-2.5 4-4 6-4 3.7 0 5.2 4 3.7 8-2.5 4.65-9.7 9-9.7 9z"/></svg>
+          <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-apto-active-icon="#be123c" data-apto-active-fill="#be123c" data-apto-active-stroke="#be123c"><path d="M12 21s-7.2-4.35-9.7-9C.8 8 2.3 4 6 4c2 0 4 1.5 6 4 2-2.5 4-4 6-4 3.7 0 5.2 4 3.7 8-2.5 4.65-9.7 9-9.7 9z"/></svg>
         </span></span>
       </button>
 
@@ -196,9 +196,9 @@
         </span></span>
       </button>
 
-      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--amber" type="button" aria-label="Favorite" aria-pressed="false" data-apto-toggle data-apto-active-icon="#7c2d12">
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--amber" type="button" aria-label="Favorite" aria-pressed="false" data-apto-toggle>
         <span class="apto-3d-button__content"><span class="apto-3d-button__text">
-          <i aria-hidden="true">★</i>
+          <i aria-hidden="true" data-apto-active-icon="#7c2d12">★</i>
         </span></span>
       </button>
 
@@ -208,7 +208,7 @@
         </span></span>
       </button>
     </div>
-    <p class="note">Icon buttons contain plain <code>svg</code>, <code>i</code>, and <code>img</code> elements. The heart button uses <code>data-apto-toggle</code>; active state swaps the button/icon colors when the icon uses <code>currentColor</code>.</p>
+    <p class="note">Icon buttons contain plain <code>svg</code>, <code>i</code>, and <code>img</code> elements. Put active color data on the icon itself, then <code>data-apto-toggle</code> stays on the button.</p>
   </section>
 
   <section>

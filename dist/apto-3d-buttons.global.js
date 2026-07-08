@@ -1,11 +1,12 @@
 (function () {
   var TOGGLE_SELECTOR = '[data-apto-toggle]';
   var COMPLETE_SELECTOR = '[data-apto-complete]';
-  var ACTIVE_OPTION_SELECTOR = [
-    '.apto-3d-button[data-apto-active-icon]',
-    '.apto-3d-button[data-apto-active-fill]',
-    '.apto-3d-button[data-apto-active-stroke]'
-  ].join(',');
+  var BUTTON_SELECTOR = '.apto-3d-button';
+  var ACTIVE_VALUE_ATTRIBUTES = [
+    ['aptoActiveIcon', 'activeIcon'],
+    ['aptoActiveFill', 'activeFill'],
+    ['aptoActiveStroke', 'activeStroke']
+  ];
 
   function setAptoButtonLoading(button, loading) {
     if (!button) return;
@@ -61,18 +62,12 @@
   function initApto3DButtons(root) {
     root = root || document;
 
-    root.querySelectorAll(ACTIVE_OPTION_SELECTOR).forEach(function (button) {
-      if (button.dataset.aptoActiveIcon) {
-        button.style.setProperty('--apto-3d-active-icon', button.dataset.aptoActiveIcon);
-      }
+    root.querySelectorAll(BUTTON_SELECTOR).forEach(function (button) {
+      syncActiveColorVariables(button, button);
 
-      if (button.dataset.aptoActiveFill) {
-        button.style.setProperty('--apto-3d-active-fill', button.dataset.aptoActiveFill);
-      }
-
-      if (button.dataset.aptoActiveStroke) {
-        button.style.setProperty('--apto-3d-active-stroke', button.dataset.aptoActiveStroke);
-      }
+      button.querySelectorAll('[data-apto-active-icon], [data-apto-active-fill], [data-apto-active-stroke]').forEach(function (element) {
+        syncActiveColorVariables(element, element);
+      });
 
       applyAptoActiveSvgPaint(button, button.classList.contains('is-active'));
     });
@@ -101,10 +96,25 @@
     });
   }
 
-  function setSvgPaintProperty(element, property, value) {
-    var savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
-    var valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
-    var priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+  function syncActiveColorVariables(source, target) {
+    ACTIVE_VALUE_ATTRIBUTES.forEach(function (item) {
+      var dataKey = item[0];
+      var cssName = item[1];
+      var value = source.dataset[dataKey];
+
+      if (value) {
+        target.style.setProperty('--apto-3d-' + cssName.replace(/[A-Z]/g, function (letter) {
+          return '-' + letter.toLowerCase();
+        }), value);
+      }
+    });
+  }
+
+  function setActiveStyleProperty(element, property, value) {
+    var propertyKey = property.charAt(0).toUpperCase() + property.slice(1);
+    var savedKey = 'aptoOriginal' + propertyKey + 'Saved';
+    var valueKey = 'aptoOriginal' + propertyKey;
+    var priorityKey = 'aptoOriginal' + propertyKey + 'Priority';
 
     if (element.dataset[savedKey] !== 'true') {
       element.dataset[savedKey] = 'true';
@@ -115,10 +125,11 @@
     element.style.setProperty(property, value, 'important');
   }
 
-  function restoreSvgPaintProperty(element, property) {
-    var savedKey = property === 'fill' ? 'aptoOriginalFillSaved' : 'aptoOriginalStrokeSaved';
-    var valueKey = property === 'fill' ? 'aptoOriginalFill' : 'aptoOriginalStroke';
-    var priorityKey = property === 'fill' ? 'aptoOriginalFillPriority' : 'aptoOriginalStrokePriority';
+  function restoreActiveStyleProperty(element, property) {
+    var propertyKey = property.charAt(0).toUpperCase() + property.slice(1);
+    var savedKey = 'aptoOriginal' + propertyKey + 'Saved';
+    var valueKey = 'aptoOriginal' + propertyKey;
+    var priorityKey = 'aptoOriginal' + propertyKey + 'Priority';
 
     if (element.dataset[savedKey] !== 'true') return;
 
@@ -132,19 +143,38 @@
     }
   }
 
+  function getClosestActiveValue(button, element, attribute, dataKey) {
+    var owner = element.closest('[' + attribute + ']');
+
+    if (owner && button.contains(owner) && owner !== button) {
+      return owner.dataset[dataKey];
+    }
+
+    return button.dataset[dataKey] || '';
+  }
+
   function applyAptoActiveSvgPaint(button, active) {
-    var activeFill = button.dataset.aptoActiveFill;
-    var activeStroke = button.dataset.aptoActiveStroke;
+    var iconTargets = button.querySelectorAll('svg, svg *, i');
 
-    if (!activeFill && !activeStroke) return;
+    iconTargets.forEach(function (element) {
+      if (!active) {
+        restoreActiveStyleProperty(element, 'color');
+        restoreActiveStyleProperty(element, 'fill');
+        restoreActiveStyleProperty(element, 'stroke');
+        return;
+      }
 
-    button.querySelectorAll('svg, svg *').forEach(function (element) {
-      if (active) {
-        if (activeFill) setSvgPaintProperty(element, 'fill', activeFill);
-        if (activeStroke) setSvgPaintProperty(element, 'stroke', activeStroke);
-      } else {
-        if (activeFill) restoreSvgPaintProperty(element, 'fill');
-        if (activeStroke) restoreSvgPaintProperty(element, 'stroke');
+      var activeIcon = getClosestActiveValue(button, element, 'data-apto-active-icon', 'aptoActiveIcon');
+      var activeFill = getClosestActiveValue(button, element, 'data-apto-active-fill', 'aptoActiveFill');
+      var activeStroke = getClosestActiveValue(button, element, 'data-apto-active-stroke', 'aptoActiveStroke');
+
+      if (activeIcon && element.matches('svg, i')) {
+        setActiveStyleProperty(element, 'color', activeIcon);
+      }
+
+      if (element.matches('svg, svg *')) {
+        if (activeFill) setActiveStyleProperty(element, 'fill', activeFill);
+        if (activeStroke) setActiveStyleProperty(element, 'stroke', activeStroke);
       }
     });
   }
