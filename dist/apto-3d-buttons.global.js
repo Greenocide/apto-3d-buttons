@@ -1,7 +1,11 @@
 (function () {
   var TOGGLE_SELECTOR = '[data-apto-toggle]';
   var COMPLETE_SELECTOR = '[data-apto-complete]';
-  var ACTIVE_ICON_SELECTOR = '.apto-3d-button[data-apto-active-icon]';
+  var ACTIVE_OPTION_SELECTOR = [
+    '.apto-3d-button[data-apto-active-icon]',
+    '.apto-3d-button[data-apto-active-fill]',
+    '.apto-3d-button[data-apto-active-stroke]'
+  ].join(',');
 
   function setAptoButtonLoading(button, loading) {
     if (!button) return;
@@ -57,8 +61,18 @@
   function initApto3DButtons(root) {
     root = root || document;
 
-    root.querySelectorAll(ACTIVE_ICON_SELECTOR).forEach(function (button) {
-      button.style.setProperty('--apto-3d-active-icon', button.dataset.aptoActiveIcon);
+    root.querySelectorAll(ACTIVE_OPTION_SELECTOR).forEach(function (button) {
+      if (button.dataset.aptoActiveIcon) {
+        button.style.setProperty('--apto-3d-active-icon', button.dataset.aptoActiveIcon);
+      }
+
+      if (button.dataset.aptoActiveFill) {
+        button.style.setProperty('--apto-3d-active-fill', button.dataset.aptoActiveFill);
+      }
+
+      if (button.dataset.aptoActiveStroke) {
+        button.style.setProperty('--apto-3d-active-stroke', button.dataset.aptoActiveStroke);
+      }
     });
 
     root.querySelectorAll(TOGGLE_SELECTOR).forEach(function (button) {

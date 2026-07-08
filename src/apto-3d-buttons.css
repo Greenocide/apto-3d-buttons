@@ -365,6 +365,16 @@
   color: var(--apto-3d-active-icon);
 }
 
+.apto-3d-button.is-active[data-apto-active-fill] svg,
+.apto-3d-button.is-active[data-apto-active-fill] svg * {
+  fill: var(--apto-3d-active-fill) !important;
+}
+
+.apto-3d-button.is-active[data-apto-active-stroke] svg,
+.apto-3d-button.is-active[data-apto-active-stroke] svg * {
+  stroke: var(--apto-3d-active-stroke) !important;
+}
+
 .apto-3d-button--switch {
   --apto-3d-padding: 0;
   --apto-3d-radius: 999px;
