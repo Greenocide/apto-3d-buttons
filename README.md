@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -182,7 +182,7 @@ Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` upda
 </button>
 ```
 
-Active buttons swap to `--apto-3d-active-bg`, `--apto-3d-active-text`, and `--apto-3d-active-edge`. By default this swaps the button face and icon/text colors. Override those variables in a preset when you want a custom active look.
+Active icon buttons keep the same button colors and only change the icon color with `--apto-3d-active-icon`. SVG icons should use `currentColor` for `fill` or `stroke` when you want the active color to apply.
 
 ## Custom Preset
 
@@ -192,10 +192,10 @@ Create your own class by setting CSS variables:
 <style>
   .apto-3d-button--brand {
     --apto-3d-bg: #2563eb;
-    --apto-3d-bg-hover: var(--apto-3d-bg);
     --apto-3d-edge: #1e3a8a;
     --apto-3d-text: #ffffff;
     --apto-3d-focus: #1d4ed8;
+    --apto-3d-active-icon: #bfdbfe;
     --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
     --apto-3d-success-mark: #ffffff;
   }
@@ -221,14 +221,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.2
+git tag v0.1.3
 git push origin main
-git push origin v0.1.2
+git push origin v0.1.3
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.global.js" defer></script>
 ```

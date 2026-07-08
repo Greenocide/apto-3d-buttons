@@ -6,13 +6,10 @@
 
 .apto-3d-button {
   --apto-3d-bg: hsl(345deg 100% 47%);
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: hsl(340deg 100% 32%);
   --apto-3d-focus: hsl(345deg 100% 38%);
-  --apto-3d-active-bg: var(--apto-3d-text);
-  --apto-3d-active-text: var(--apto-3d-bg);
-  --apto-3d-active-edge: var(--apto-3d-focus);
+  --apto-3d-active-icon: var(--apto-3d-focus);
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-spinner-size: 16px;
   --apto-3d-spinner-stroke: 2px;
@@ -94,22 +91,9 @@
   transition: opacity 150ms ease;
 }
 
-.apto-3d-button:hover:not(:disabled):not([aria-disabled="true"]) .apto-3d-button__content {
-  background: var(--apto-3d-bg-hover);
-}
-
 .apto-3d-button:active:not(:disabled):not([aria-disabled="true"]),
 .apto-3d-button.is-loading {
   --apto-3d-current-lift: var(--apto-3d-pressed-edge);
-}
-
-.apto-3d-button.is-active {
-  background: var(--apto-3d-active-edge);
-}
-
-.apto-3d-button.is-active .apto-3d-button__content {
-  background: var(--apto-3d-active-bg);
-  color: var(--apto-3d-active-text);
 }
 
 .apto-3d-button.is-loading {
@@ -172,7 +156,6 @@
 
 .apto-3d-button--rose {
   --apto-3d-bg: hsl(345deg 100% 47%);
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: hsl(340deg 100% 32%);
   --apto-3d-focus: hsl(345deg 100% 38%);
@@ -182,7 +165,6 @@
 
 .apto-3d-button--red {
   --apto-3d-bg: #ef4444;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #991b1b;
   --apto-3d-focus: #dc2626;
@@ -192,7 +174,6 @@
 
 .apto-3d-button--orange {
   --apto-3d-bg: #f97316;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #9a3412;
   --apto-3d-focus: #ea580c;
@@ -202,7 +183,6 @@
 
 .apto-3d-button--amber {
   --apto-3d-bg: #f59e0b;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #2b1600;
   --apto-3d-edge: #92400e;
   --apto-3d-focus: #d97706;
@@ -212,7 +192,6 @@
 
 .apto-3d-button--primary {
   --apto-3d-bg: #5b7cff;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #3348b4;
   --apto-3d-focus: #2d4bff;
@@ -222,7 +201,6 @@
 
 .apto-3d-button--blue {
   --apto-3d-bg: #5b7cff;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #3348b4;
   --apto-3d-focus: #2d4bff;
@@ -233,7 +211,6 @@
 .apto-3d-button--success,
 .apto-3d-button--green {
   --apto-3d-bg: #22b573;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #116e45;
   --apto-3d-focus: #168f5a;
@@ -243,7 +220,6 @@
 
 .apto-3d-button--cyan {
   --apto-3d-bg: #0891b2;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #155e75;
   --apto-3d-focus: #0e7490;
@@ -253,7 +229,6 @@
 
 .apto-3d-button--violet {
   --apto-3d-bg: #8b5cf6;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #5b21b6;
   --apto-3d-focus: #7c3aed;
@@ -263,7 +238,6 @@
 
 .apto-3d-button--slate {
   --apto-3d-bg: #475569;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #1e293b;
   --apto-3d-focus: #334155;
@@ -273,7 +247,6 @@
 
 .apto-3d-button--danger {
   --apto-3d-bg: #ef4b4b;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #941d1d;
   --apto-3d-focus: #e03131;
@@ -283,7 +256,6 @@
 
 .apto-3d-button--ghost {
   --apto-3d-bg: #ffffff;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #4d67df;
   --apto-3d-edge: #cfd8ff;
   --apto-3d-focus: #5b7cff;
@@ -291,13 +263,10 @@
 
 .apto-3d-button--like {
   --apto-3d-bg: #ffffff;
-  --apto-3d-bg-hover: var(--apto-3d-bg);
   --apto-3d-text: #e82f58;
   --apto-3d-edge: #f6ccd7;
   --apto-3d-focus: #ef4467;
-  --apto-3d-active-bg: #e82f58;
-  --apto-3d-active-text: #ffffff;
-  --apto-3d-active-edge: #9f1239;
+  --apto-3d-active-icon: #be123c;
 }
 
 .apto-3d-button--sm {
@@ -392,6 +361,10 @@
   fill: currentColor;
 }
 
+.apto-3d-button.is-active :is(.apto-3d-icon, svg, i) {
+  color: var(--apto-3d-active-icon);
+}
+
 .apto-3d-button--switch {
   --apto-3d-padding: 0;
   --apto-3d-radius: 999px;
@@ -399,11 +372,18 @@
   --apto-3d-edge: #64748b;
   --apto-3d-text: #ffffff;
   --apto-3d-focus: #64748b;
-  --apto-3d-active-bg: #22b573;
-  --apto-3d-active-text: #ffffff;
-  --apto-3d-active-edge: #116e45;
+  --apto-3d-switch-on-bg: #22b573;
+  --apto-3d-switch-on-edge: #116e45;
   width: 76px;
   height: 42px;
+}
+
+.apto-3d-button--switch.is-active {
+  background: var(--apto-3d-switch-on-edge);
+}
+
+.apto-3d-button--switch.is-active .apto-3d-button__content {
+  background: var(--apto-3d-switch-on-bg);
 }
 
 .apto-3d-button--switch .apto-3d-button__content {
