@@ -1,4 +1,11 @@
 const TOGGLE_SELECTOR = '[data-apto-toggle]';
+const ACTIVE_ICON_SELECTOR = '.apto-3d-button[data-apto-active-icon]';
+
+function applyAptoButtonOptions(root = document) {
+  root.querySelectorAll(ACTIVE_ICON_SELECTOR).forEach((button) => {
+    button.style.setProperty('--apto-3d-active-icon', button.dataset.aptoActiveIcon);
+  });
+}
 
 export function setAptoButtonLoading(button, loading = true) {
   if (!button) return;
@@ -49,6 +56,8 @@ export function completeButtonWithSuccess(button, options = {}) {
 }
 
 export function initApto3DButtons(root = document) {
+  applyAptoButtonOptions(root);
+
   root.querySelectorAll(TOGGLE_SELECTOR).forEach((button) => {
     if (button.dataset.aptoReady === 'true') return;
 

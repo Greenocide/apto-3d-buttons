@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.2/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -171,7 +171,7 @@ For real AJAX/form logic, call the global helper yourself:
 Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` updated.
 
 ```html
-<button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle>
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle data-apto-active-icon="#be123c">
   <span class="apto-3d-button__content">
     <span class="apto-3d-button__text">
       <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -182,7 +182,29 @@ Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` upda
 </button>
 ```
 
-Active icon buttons keep the same button colors and only change the icon color with `--apto-3d-active-icon`. SVG icons should use `currentColor` for `fill` or `stroke` when you want the active color to apply.
+Active icon buttons keep the same button colors and only change the icon color. Set that color with `data-apto-active-icon`:
+
+```html
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--blue" type="button" aria-label="Favorite" aria-pressed="false" data-apto-toggle data-apto-active-icon="#facc15">
+  <span class="apto-3d-button__content">
+    <span class="apto-3d-button__text">
+      <svg class="apto-3d-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 17.3l-5.2 3 1.4-5.8-4.5-3.9 6-.5L12 4.6l2.3 5.5 6 .5-4.5 3.9 1.4 5.8z"></path>
+      </svg>
+    </span>
+  </span>
+</button>
+```
+
+You can also set the CSS variable directly:
+
+```html
+<button class="apto-3d-button apto-3d-button--icon apto-3d-button--blue" style="--apto-3d-active-icon: #facc15;" type="button" aria-label="Favorite" aria-pressed="false" data-apto-toggle>
+  ...
+</button>
+```
+
+SVG icons should use `currentColor` for `fill` or `stroke` when you want the active color to apply.
 
 ## Custom Preset
 
@@ -221,14 +243,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.3
+git tag v0.1.4
 git push origin main
-git push origin v0.1.3
+git push origin v0.1.4
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.3/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.4/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.4/dist/apto-3d-buttons.global.js" defer></script>
 ```

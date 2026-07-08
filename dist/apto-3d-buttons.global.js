@@ -1,6 +1,7 @@
 (function () {
   var TOGGLE_SELECTOR = '[data-apto-toggle]';
   var COMPLETE_SELECTOR = '[data-apto-complete]';
+  var ACTIVE_ICON_SELECTOR = '.apto-3d-button[data-apto-active-icon]';
 
   function setAptoButtonLoading(button, loading) {
     if (!button) return;
@@ -55,6 +56,10 @@
 
   function initApto3DButtons(root) {
     root = root || document;
+
+    root.querySelectorAll(ACTIVE_ICON_SELECTOR).forEach(function (button) {
+      button.style.setProperty('--apto-3d-active-icon', button.dataset.aptoActiveIcon);
+    });
 
     root.querySelectorAll(TOGGLE_SELECTOR).forEach(function (button) {
       if (button.dataset.aptoReady === 'true') return;
