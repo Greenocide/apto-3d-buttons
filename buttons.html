@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apto 3D Buttons - Gallery</title>
 <link rel="stylesheet" href="./src/apto-3d-buttons.css" />
-<link rel="stylesheet" href="./src/account-hub-admin.css" />
 <style>
   *, *::before, *::after { box-sizing: border-box; }
 
@@ -131,25 +130,6 @@
       </button>
     </div>
     <p class="note">Preset color classes only set CSS variables, so they compose with size, icon, loading, and custom state classes.</p>
-  </section>
-
-  <section class="account-hub-admin">
-    <p class="section-label">Account Hub admin</p>
-    <div class="row">
-      <button class="account-hub-button account-hub-button--primary" type="button">Fallback Primary</button>
-      <button class="account-hub-button account-hub-button--success" type="button">Fallback Success</button>
-      <button class="account-hub-button account-hub-button--ghost" type="button">Fallback Ghost</button>
-      <button class="account-hub-button apto-3d-button apto-3d-button--primary" type="button">
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Apto Primary</span></span>
-      </button>
-      <button class="account-hub-button account-hub-button--success apto-3d-button" type="button">
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Apto Success</span></span>
-      </button>
-      <button class="account-hub-button account-hub-button--ghost apto-3d-button" type="button">
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Apto Ghost</span></span>
-      </button>
-    </div>
-    <p class="note">The fallback only targets <code>.account-hub-button</code> without <code>.apto-3d-button</code>. When Apto is present, the Account Hub file only changes CSS variables.</p>
   </section>
 
   <section>
