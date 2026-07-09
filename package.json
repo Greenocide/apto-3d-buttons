@@ -1,6 +1,6 @@
 {
   "name": "apto-3d-buttons",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Reusable, shadow-free Apto 3D button component.",
   "type": "module",
   "license": "MIT",

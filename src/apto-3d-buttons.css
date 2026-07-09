@@ -10,6 +10,9 @@
   --apto-3d-edge: hsl(340deg 100% 32%);
   --apto-3d-focus: hsl(345deg 100% 38%);
   --apto-3d-active-icon: var(--apto-3d-focus);
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: hsl(340deg 100% 32%);
+  --apto-3d-active-edge: #f6ccd7;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-spinner-size: 16px;
   --apto-3d-spinner-stroke: 2px;
@@ -26,28 +29,61 @@
   --apto-3d-icon-size: 22px;
 
   appearance: none;
+  -webkit-appearance: none;
   box-sizing: border-box;
   position: relative;
   display: inline-block;
   padding: 0;
   border: 0;
+  border-width: 0;
+  border-style: solid;
   border-radius: var(--apto-3d-radius);
   background: var(--apto-3d-edge);
+  background-image: none;
   color: var(--apto-3d-text);
   cursor: pointer;
   font: inherit;
+  letter-spacing: 0;
   text-align: center;
   text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
   outline-offset: 4px;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  scale: none;
+  rotate: none;
+  translate: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 120ms ease;
+}
+
+.apto-3d-button.apto-3d-button:hover,
+.apto-3d-button.apto-3d-button:active,
+.apto-3d-button.apto-3d-button:focus,
+.apto-3d-button.apto-3d-button:visited {
+  border-color: transparent;
+  background-color: var(--apto-3d-edge);
+  background-image: none;
+  color: var(--apto-3d-text);
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  scale: none;
+  rotate: none;
+  translate: none;
 }
 
 .apto-3d-button.apto-3d-button *,
 .apto-3d-button.apto-3d-button *::before,
 .apto-3d-button.apto-3d-button *::after {
   box-sizing: border-box;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .apto-3d-button.apto-3d-button:focus { outline: none; }
@@ -70,14 +106,33 @@
   padding: var(--apto-3d-padding);
   border-radius: var(--apto-3d-radius);
   background: var(--apto-3d-bg);
+  background-image: none;
   color: var(--apto-3d-text);
   font-size: var(--apto-3d-font-size);
+  font-style: normal;
   line-height: 1;
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
   transform: translateY(calc(var(--apto-3d-current-lift) * -1));
   transition:
     background-color 120ms ease,
     color 120ms ease,
     transform 100ms ease;
+}
+
+.apto-3d-button.apto-3d-button:hover > .apto-3d-button__content,
+.apto-3d-button.apto-3d-button:focus > .apto-3d-button__content,
+.apto-3d-button.apto-3d-button:visited > .apto-3d-button__content {
+  background-color: var(--apto-3d-bg);
+  background-image: none;
+  color: var(--apto-3d-text);
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+  transform: translateY(calc(var(--apto-3d-current-lift) * -1));
 }
 
 .apto-3d-button.apto-3d-button .apto-3d-button__text {
@@ -88,7 +143,20 @@
   justify-content: center;
   gap: 8px;
   color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
   transition: opacity 150ms ease;
+}
+
+.apto-3d-button.apto-3d-button:hover .apto-3d-button__text,
+.apto-3d-button.apto-3d-button:focus .apto-3d-button__text,
+.apto-3d-button.apto-3d-button:visited .apto-3d-button__text {
+  color: inherit;
+  text-decoration: none;
+  text-shadow: none;
 }
 
 .apto-3d-button.apto-3d-button:active:not(:disabled):not([aria-disabled="true"]),
@@ -159,6 +227,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: hsl(340deg 100% 32%);
   --apto-3d-focus: hsl(345deg 100% 38%);
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: hsl(340deg 100% 32%);
+  --apto-3d-active-edge: #f6ccd7;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -168,6 +239,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #991b1b;
   --apto-3d-focus: #dc2626;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #991b1b;
+  --apto-3d-active-edge: #fecaca;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -177,6 +251,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #9a3412;
   --apto-3d-focus: #ea580c;
+  --apto-3d-active-bg: #fff7ed;
+  --apto-3d-active-text: #9a3412;
+  --apto-3d-active-edge: #fed7aa;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -186,6 +263,9 @@
   --apto-3d-text: #2b1600;
   --apto-3d-edge: #92400e;
   --apto-3d-focus: #d97706;
+  --apto-3d-active-bg: #2b1600;
+  --apto-3d-active-text: #fff7ed;
+  --apto-3d-active-edge: #92400e;
   --apto-3d-spinner-track: rgba(43, 22, 0, 0.28);
   --apto-3d-success-mark: #2b1600;
 }
@@ -195,6 +275,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #3348b4;
   --apto-3d-focus: #2d4bff;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #3348b4;
+  --apto-3d-active-edge: #bfdbfe;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -204,6 +287,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #3348b4;
   --apto-3d-focus: #2d4bff;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #3348b4;
+  --apto-3d-active-edge: #bfdbfe;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -214,6 +300,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #116e45;
   --apto-3d-focus: #168f5a;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #116e45;
+  --apto-3d-active-edge: #bbf7d0;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -223,6 +312,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #155e75;
   --apto-3d-focus: #0e7490;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #155e75;
+  --apto-3d-active-edge: #a5f3fc;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -232,6 +324,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #5b21b6;
   --apto-3d-focus: #7c3aed;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #5b21b6;
+  --apto-3d-active-edge: #ddd6fe;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -241,6 +336,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #1e293b;
   --apto-3d-focus: #334155;
+  --apto-3d-active-bg: #f8fafc;
+  --apto-3d-active-text: #1e293b;
+  --apto-3d-active-edge: #94a3b8;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -250,6 +348,9 @@
   --apto-3d-text: #ffffff;
   --apto-3d-edge: #941d1d;
   --apto-3d-focus: #e03131;
+  --apto-3d-active-bg: #ffffff;
+  --apto-3d-active-text: #941d1d;
+  --apto-3d-active-edge: #fecaca;
   --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
   --apto-3d-success-mark: #ffffff;
 }
@@ -259,6 +360,9 @@
   --apto-3d-text: #4d67df;
   --apto-3d-edge: #cfd8ff;
   --apto-3d-focus: #5b7cff;
+  --apto-3d-active-bg: #4d67df;
+  --apto-3d-active-text: #ffffff;
+  --apto-3d-active-edge: #3348b4;
 }
 
 .apto-3d-button.apto-3d-button--like {
@@ -267,6 +371,25 @@
   --apto-3d-edge: #f6ccd7;
   --apto-3d-focus: #ef4467;
   --apto-3d-active-icon: #be123c;
+  --apto-3d-active-bg: #be123c;
+  --apto-3d-active-text: #ffffff;
+  --apto-3d-active-edge: #881337;
+}
+
+.apto-3d-button.apto-3d-button--active-swap.is-active {
+  background-color: var(--apto-3d-active-edge);
+  color: var(--apto-3d-active-text);
+}
+
+.apto-3d-button.apto-3d-button--active-swap.is-active > .apto-3d-button__content,
+.apto-3d-button.apto-3d-button--active-swap.is-active:hover > .apto-3d-button__content,
+.apto-3d-button.apto-3d-button--active-swap.is-active:focus > .apto-3d-button__content {
+  background-color: var(--apto-3d-active-bg);
+  color: var(--apto-3d-active-text);
+}
+
+.apto-3d-button.apto-3d-button--active-swap.is-active .apto-3d-button__text {
+  color: inherit;
 }
 
 .apto-3d-button.apto-3d-button--sm {
