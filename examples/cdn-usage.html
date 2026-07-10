@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apto 3D Buttons CDN Usage</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.9/dist/apto-3d-buttons.css">
-  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.9/dist/apto-3d-buttons.global.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.css">
+  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.global.js" defer></script>
 </head>
 <body>
   <button class="apto-3d-button apto-3d-button--violet" type="button">
@@ -19,5 +19,17 @@
       <span class="apto-3d-button__text">Submit</span>
     </span>
   </button>
+
+  <label class="apto-3d-checkbox apto-3d-checkbox--green">
+    <input type="checkbox" name="updates" value="yes" checked>
+    <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+    <span class="apto-3d-checkbox__label">Email updates</span>
+  </label>
+
+  <label class="apto-3d-switch apto-3d-switch--violet">
+    <input type="checkbox" name="notifications" role="switch">
+    <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
+    <span class="apto-3d-switch__label">Notifications</span>
+  </label>
 </body>
 </html>

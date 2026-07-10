@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.9/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.9/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -114,16 +114,50 @@ Plain `<i>` and `<img>` icons are also contained:
 </button>
 ```
 
-## Switch
+## Checkbox
 
-Use `apto-3d-button--switch` with `data-apto-toggle`:
+The input is real, so its checked value works with HTML forms, WordPress forms, labels, validation, and keyboard controls.
 
 ```html
-<button class="apto-3d-button apto-3d-button--switch" type="button" aria-label="Enable setting" aria-pressed="false" data-apto-toggle>
-  <span class="apto-3d-button__content">
-    <span class="apto-3d-button__text">Enable setting</span>
+<label class="apto-3d-checkbox apto-3d-checkbox--success">
+  <input type="checkbox" name="updates" value="yes">
+  <span class="apto-3d-checkbox__box" aria-hidden="true">
+    <span class="apto-3d-checkbox__front"></span>
   </span>
-</button>
+  <span class="apto-3d-checkbox__label">Email updates</span>
+</label>
+```
+
+Native `checked` and `disabled` attributes work directly. JavaScript can also set the native indeterminate state:
+
+```js
+document.querySelector('#select-all').indeterminate = true;
+```
+
+## Switch
+
+The switch is also a native checkbox. Add `role="switch"` so assistive technology announces its purpose correctly.
+
+```html
+<label class="apto-3d-switch apto-3d-switch--primary">
+  <input type="checkbox" name="notifications" role="switch" checked>
+  <span class="apto-3d-switch__track" aria-hidden="true">
+    <span class="apto-3d-switch__front"></span>
+  </span>
+  <span class="apto-3d-switch__label">Notifications</span>
+</label>
+```
+
+Checkbox and switch presets use the same names as buttons: `rose`, `red`, `orange`, `amber`, `green`, `cyan`, `blue`, `violet`, `slate`, plus `primary`, `success`, and `danger`.
+
+Custom colors can be applied inline or in a class using these variables:
+
+```html
+<label class="apto-3d-switch" style="--apto-3d-control-bg: #ec4899; --apto-3d-control-edge: #9d174d; --apto-3d-control-focus: #db2777;">
+  <input type="checkbox" name="custom-setting" role="switch">
+  <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
+  <span class="apto-3d-switch__label">Custom setting</span>
+</label>
 ```
 
 ## Loading Button
@@ -288,14 +322,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.1.10
+git tag v0.2.1
 git push origin main
-git push origin v0.1.10
+git push origin v0.2.1
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.10/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.1.10/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.1/dist/apto-3d-buttons.global.js" defer></script>
 ```

@@ -75,7 +75,7 @@
 
 <main class="page">
   <h1>Apto 3D Buttons</h1>
-  <p class="lede">A reusable <code>.apto-3d-button</code> component with a flatter 3D edge, no drop shadows, icon states, toggles, and a loading to success flow.</p>
+  <p class="lede">Reusable 3D buttons, checkboxes, and switches with a flatter edge, no drop shadows, native form behavior, icon states, and a loading to success flow.</p>
 
   <section>
     <p class="section-label">Text buttons</p>
@@ -300,16 +300,52 @@
   </section>
 
   <section>
-    <p class="section-label">Switch</p>
+    <p class="section-label">Checkboxes</p>
     <div class="row">
-      <button class="apto-3d-button apto-3d-button--switch" type="button" aria-label="Enable setting" aria-pressed="false" data-apto-toggle>
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Enable setting</span></span>
-      </button>
-      <button class="apto-3d-button apto-3d-button--switch is-active" type="button" aria-label="Enabled setting" aria-pressed="true" data-apto-toggle>
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Enabled setting</span></span>
-      </button>
+      <label class="apto-3d-checkbox apto-3d-checkbox--primary">
+        <input type="checkbox" name="checkbox-demo" value="primary">
+        <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+        <span class="apto-3d-checkbox__label">Primary</span>
+      </label>
+      <label class="apto-3d-checkbox apto-3d-checkbox--success">
+        <input type="checkbox" name="checkbox-demo" value="success" checked>
+        <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+        <span class="apto-3d-checkbox__label">Checked</span>
+      </label>
+      <label class="apto-3d-checkbox apto-3d-checkbox--amber">
+        <input id="mixedCheckbox" type="checkbox" name="checkbox-demo" value="mixed">
+        <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+        <span class="apto-3d-checkbox__label">Indeterminate</span>
+      </label>
+      <label class="apto-3d-checkbox apto-3d-checkbox--danger">
+        <input type="checkbox" name="checkbox-demo" value="disabled" disabled>
+        <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+        <span class="apto-3d-checkbox__label">Disabled</span>
+      </label>
     </div>
-    <p class="note">A switch is just a button with <code>apto-3d-button--switch</code> and <code>data-apto-toggle</code>, so it stays accessible and shares the same active-state logic.</p>
+    <p class="note">These use real checkbox inputs, so labels, forms, keyboard controls, checked values, disabled state, and validation continue to work normally.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Switches</p>
+    <div class="row">
+      <label class="apto-3d-switch apto-3d-switch--primary">
+        <input type="checkbox" name="notifications" role="switch">
+        <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
+        <span class="apto-3d-switch__label">Notifications</span>
+      </label>
+      <label class="apto-3d-switch apto-3d-switch--success">
+        <input type="checkbox" name="online" role="switch" checked>
+        <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
+        <span class="apto-3d-switch__label">Online</span>
+      </label>
+      <label class="apto-3d-switch apto-3d-switch--violet">
+        <input type="checkbox" name="private-mode" role="switch" disabled>
+        <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
+        <span class="apto-3d-switch__label">Disabled</span>
+      </label>
+    </div>
+    <p class="note">Switches are native checkboxes with <code>role="switch"</code>. Their values submit with forms without any library-specific JavaScript.</p>
   </section>
 
   <section>
@@ -334,6 +370,8 @@
   import { completeButtonWithSuccess, initApto3DButtons } from './src/apto-3d-buttons.js';
 
   initApto3DButtons();
+
+  document.getElementById('mixedCheckbox').indeterminate = true;
 
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.addEventListener('click', () => {
