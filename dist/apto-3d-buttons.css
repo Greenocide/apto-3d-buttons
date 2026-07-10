@@ -160,6 +160,8 @@
 }
 
 .apto-3d-button.apto-3d-button:active:not(:disabled):not([aria-disabled="true"]),
+.apto-3d-button.apto-3d-button.is-active:not(:disabled):not([aria-disabled="true"]),
+.apto-3d-button.apto-3d-button[aria-pressed="true"]:not(:disabled):not([aria-disabled="true"]),
 .apto-3d-button.apto-3d-button.is-loading {
   --apto-3d-current-lift: var(--apto-3d-pressed-edge);
 }
@@ -972,6 +974,7 @@
 .apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"] > .apto-3d-tab__front {
   background-color: var(--apto-3d-tab-bg);
   color: var(--apto-3d-tab-text);
+  transform: translateY(calc(var(--apto-3d-tab-pressed-edge) * -1));
 }
 
 .apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"]:hover,

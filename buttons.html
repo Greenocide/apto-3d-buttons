@@ -146,8 +146,8 @@
   <section>
     <p class="section-label">Active text toggles</p>
     <div class="row">
-      <button class="apto-3d-button apto-3d-button--primary apto-3d-button--active-swap" type="button" aria-pressed="false" data-apto-toggle>
-        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Primary Toggle</span></span>
+      <button class="apto-3d-button apto-3d-button--primary apto-3d-button--active-swap is-active" type="button" aria-pressed="true" data-apto-toggle>
+        <span class="apto-3d-button__content"><span class="apto-3d-button__text">Primary Active</span></span>
       </button>
       <button class="apto-3d-button apto-3d-button--success apto-3d-button--active-swap" type="button" aria-pressed="false" data-apto-toggle>
         <span class="apto-3d-button__content"><span class="apto-3d-button__text">Success Toggle</span></span>
@@ -162,7 +162,7 @@
         <span class="apto-3d-button__content"><span class="apto-3d-button__text">Ghost Active</span></span>
       </button>
     </div>
-    <p class="note">Text toggles use <code>data-apto-toggle</code> with <code>apto-3d-button--active-swap</code>. Each color preset has a readable active background and text color.</p>
+    <p class="note">Text toggles use <code>data-apto-toggle</code> with <code>apto-3d-button--active-swap</code>. Active buttons swap to readable colors and remain physically pressed down.</p>
   </section>
 
   <section>
@@ -245,7 +245,7 @@
         </span></span>
       </button>
 
-      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like" type="button" aria-label="Like" aria-pressed="false" data-apto-toggle>
+      <button class="apto-3d-button apto-3d-button--icon apto-3d-button--like is-active" type="button" aria-label="Like" aria-pressed="true" data-apto-toggle>
         <span class="apto-3d-button__content"><span class="apto-3d-button__text">
           <svg class="apto-3d-icon heart-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-apto-active-icon="#be123c" data-apto-active-fill="#be123c" data-apto-active-stroke="#be123c"><path d="M12 21s-7.2-4.35-9.7-9C.8 8 2.3 4 6 4c2 0 4 1.5 6 4 2-2.5 4-4 6-4 3.7 0 5.2 4 3.7 8-2.5 4.65-9.7 9-9.7 9z"/></svg>
         </span></span>
@@ -447,7 +447,7 @@
         </section>
       </div>
     </div>
-    <p class="note">Tabs switch one visible panel at a time. Arrow keys, Home, and End move selection and focus like a single-choice control.</p>
+    <p class="note">Tabs switch one visible panel at a time. The selected tab stays pressed down; Arrow keys, Home, and End move selection and focus.</p>
   </section>
 
   <section>
