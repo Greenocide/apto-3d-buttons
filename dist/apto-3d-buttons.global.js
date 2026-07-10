@@ -3,7 +3,19 @@
   var COMPLETE_SELECTOR = '[data-apto-complete]';
   var BUTTON_SELECTOR = '.apto-3d-button';
   var SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
+  var RANGE_SELECTOR = '.apto-3d-range';
   var TABS_SELECTOR = '[data-apto-tabs]';
+  var SLIDER_PRESS_KEYS = [
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'End',
+    'Home',
+    'PageDown',
+    'PageUp'
+  ];
+  var SLIDER_THUMB_SIZE = 24;
   var ACTIVE_VALUE_ATTRIBUTES = [
     ['aptoActiveIcon', 'activeIcon'],
     ['aptoActiveFill', 'activeFill'],
@@ -61,23 +73,364 @@
     });
   }
 
+  function clampAptoValue(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function getAptoRangeMetrics(input) {
+    var min = Number(input.min || 0);
+    var max = Number(input.max || 100);
+    var value = clampAptoValue(Number(input.value), min, max);
+    var progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
+
+    return { max: max, min: min, progress: progress, value: value };
+  }
+
+  function getAptoFormattedValue(input, value, aria) {
+    value = value == null ? input.value : value;
+    aria = aria === true;
+
+    var prefix = aria && input.dataset.aptoSliderAriaPrefix != null
+      ? input.dataset.aptoSliderAriaPrefix
+      : (input.dataset.aptoSliderPrefix || '');
+    var suffix = aria && input.dataset.aptoSliderAriaSuffix != null
+      ? input.dataset.aptoSliderAriaSuffix
+      : (input.dataset.aptoSliderSuffix || '');
+
+    if (aria && input.dataset.aptoSliderAriaSuffix == null && suffix.trim() === '%') {
+      suffix = ' percent';
+    }
+
+    return prefix + value + suffix;
+  }
+
+  function getAptoThumbPosition(input, progress) {
+    var width = input.clientWidth;
+    if (!width) return progress + '%';
+
+    var radius = SLIDER_THUMB_SIZE / 2;
+    var travel = Math.max(0, width - SLIDER_THUMB_SIZE);
+    return radius + (travel * progress / 100) + 'px';
+  }
+
+  function ensureAptoBubble(owner, selector, className, handle) {
+    var bubble = owner.querySelector(selector);
+
+    if (!bubble) {
+      bubble = document.createElement('span');
+      bubble.className = className;
+      bubble.setAttribute('aria-hidden', 'true');
+      if (handle) bubble.dataset.aptoRangeBubble = handle;
+      owner.append(bubble);
+    }
+
+    return bubble;
+  }
+
+  function getAptoTickStep(rawValue, input) {
+    if (rawValue && rawValue !== 'true') {
+      var customStep = Number(rawValue);
+      if (customStep > 0) return customStep;
+    }
+
+    if (input.step && input.step !== 'any') {
+      var inputStep = Number(input.step);
+      if (inputStep > 0) return inputStep;
+    }
+
+    return 1;
+  }
+
+  function renderAptoTicks(owner, input, attribute, className, tickClassName) {
+    var rawValue = owner.hasAttribute(attribute)
+      ? owner.getAttribute(attribute)
+      : input.getAttribute(attribute);
+    var existing = owner.querySelector('.' + className);
+
+    if (rawValue == null || rawValue === 'false') {
+      if (existing) existing.remove();
+      return;
+    }
+
+    var metrics = getAptoRangeMetrics(input);
+    var step = getAptoTickStep(rawValue, input);
+    var signature = metrics.min + ':' + metrics.max + ':' + step;
+
+    if (existing && existing.dataset.aptoTickSignature === signature) return;
+    if (existing) existing.remove();
+
+    var count = Math.floor((metrics.max - metrics.min) / step) + 1;
+    if (count < 2 || count > 101) return;
+
+    var ticks = document.createElement('span');
+    ticks.className = className;
+    ticks.dataset.aptoTickSignature = signature;
+    ticks.setAttribute('aria-hidden', 'true');
+
+    for (var index = 0; index < count; index += 1) {
+      var tick = document.createElement('i');
+      var value = metrics.min + (index * step);
+      var position = ((value - metrics.min) / (metrics.max - metrics.min)) * 100;
+      tick.className = tickClassName;
+      tick.style.setProperty('--apto-3d-tick-position', position + '%');
+      ticks.append(tick);
+    }
+
+    if ((metrics.min + ((count - 1) * step)) < metrics.max) {
+      var finalTick = document.createElement('i');
+      finalTick.className = tickClassName;
+      finalTick.style.setProperty('--apto-3d-tick-position', '100%');
+      ticks.append(finalTick);
+    }
+
+    owner.append(ticks);
+  }
+
+  function setAptoSliderPressState(input, active, ownerClass) {
+    var owner = input.closest('.apto-3d-slider, .apto-3d-range');
+
+    input.classList.toggle('is-pressing', active);
+    if (owner) owner.classList.toggle(ownerClass, active);
+  }
+
+  function bindAptoSliderFeedback(input, sync, ownerClass) {
+    function stop() {
+      setAptoSliderPressState(input, false, ownerClass);
+    }
+
+    function start() {
+      if (input.disabled) return;
+      setAptoSliderPressState(input, true, ownerClass);
+      sync();
+    }
+
+    input.addEventListener('pointerdown', function () {
+      start();
+
+      function endPointer() {
+        stop();
+        window.removeEventListener('pointerup', endPointer);
+        window.removeEventListener('pointercancel', endPointer);
+      }
+
+      window.addEventListener('pointerup', endPointer);
+      window.addEventListener('pointercancel', endPointer);
+    });
+
+    input.addEventListener('keydown', function (event) {
+      if (SLIDER_PRESS_KEYS.indexOf(event.key) === -1 || input.disabled) return;
+
+      window.clearTimeout(input.aptoSliderPressTimer);
+      start();
+      window.requestAnimationFrame(sync);
+    });
+
+    input.addEventListener('keyup', function (event) {
+      if (SLIDER_PRESS_KEYS.indexOf(event.key) === -1) return;
+
+      window.clearTimeout(input.aptoSliderPressTimer);
+      input.aptoSliderPressTimer = window.setTimeout(stop, 120);
+    });
+
+    input.addEventListener('blur', stop);
+  }
+
   function syncApto3DSlider(input) {
     if (!input) return;
 
-    var min = Number(input.min || 0);
-    var max = Number(input.max || 100);
-    var value = Number(input.value);
-    var progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
     var slider = input.closest('.apto-3d-slider');
-    var output = slider && slider.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+    if (!slider) return;
 
-    input.style.setProperty('--apto-3d-slider-progress', Math.min(100, Math.max(0, progress)) + '%');
+    var metrics = getAptoRangeMetrics(input);
+    var position = getAptoThumbPosition(input, metrics.progress);
+    var output = slider.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+    var formattedValue = getAptoFormattedValue(input);
+    var ariaValue = getAptoFormattedValue(input, input.value, true);
+
+    input.style.setProperty('--apto-3d-slider-progress', position);
+    slider.style.setProperty('--apto-3d-slider-bubble-position', position);
+    input.setAttribute('aria-valuetext', ariaValue);
 
     if (output) {
-      var prefix = input.dataset.aptoSliderPrefix || '';
-      var suffix = input.dataset.aptoSliderSuffix || '';
-      output.value = prefix + input.value + suffix;
+      output.value = formattedValue;
+      output.textContent = formattedValue;
+    }
+
+    if (input.dataset.aptoSliderBubble !== 'false') {
+      var bubble = ensureAptoBubble(slider, '.apto-3d-slider__bubble', 'apto-3d-slider__bubble');
+      bubble.textContent = formattedValue;
+    } else {
+      var oldBubble = slider.querySelector('.apto-3d-slider__bubble');
+      if (oldBubble) oldBubble.remove();
+    }
+
+    renderAptoTicks(
+      slider,
+      input,
+      'data-apto-slider-ticks',
+      'apto-3d-slider__ticks',
+      'apto-3d-slider__tick'
+    );
+  }
+
+  function getAptoRangeFormattedValue(range, value, aria) {
+    aria = aria === true;
+    var prefixKey = aria ? 'aptoRangeAriaPrefix' : 'aptoRangePrefix';
+    var suffixKey = aria ? 'aptoRangeAriaSuffix' : 'aptoRangeSuffix';
+    var prefix = range.dataset[prefixKey] != null
+      ? range.dataset[prefixKey]
+      : (range.dataset.aptoRangePrefix || '');
+    var suffix = range.dataset[suffixKey] != null
+      ? range.dataset[suffixKey]
+      : (range.dataset.aptoRangeSuffix || '');
+
+    if (aria && range.dataset.aptoRangeAriaSuffix == null && suffix.trim() === '%') {
+      suffix = ' percent';
+    }
+
+    return prefix + value + suffix;
+  }
+
+  function syncApto3DRange(range, changedInput) {
+    if (!range) return;
+    changedInput = changedInput || null;
+
+    var minInput = range.querySelector('[data-apto-range-min]');
+    var maxInput = range.querySelector('[data-apto-range-max]');
+    if (!minInput || !maxInput) return;
+
+    var minValue = Number(minInput.value);
+    var maxValue = Number(maxInput.value);
+
+    if (minValue > maxValue) {
+      if (changedInput === maxInput) {
+        maxValue = minValue;
+        maxInput.value = String(maxValue);
+      } else {
+        minValue = maxValue;
+        minInput.value = String(minValue);
+      }
+    }
+
+    var boundsMin = Number(minInput.min || 0);
+    var boundsMax = Number(minInput.max || 100);
+    var span = boundsMax - boundsMin;
+    var start = span ? ((minValue - boundsMin) / span) * 100 : 0;
+    var end = span ? ((maxValue - boundsMin) / span) * 100 : 100;
+    var minPosition = getAptoThumbPosition(minInput, start);
+    var maxPosition = getAptoThumbPosition(maxInput, end);
+    var output = range.querySelector('[data-apto-range-output], .apto-3d-range__output');
+    var separator = range.dataset.aptoRangeSeparator || ' – ';
+    var minText = getAptoRangeFormattedValue(range, minInput.value);
+    var maxText = getAptoRangeFormattedValue(range, maxInput.value);
+
+    range.style.setProperty('--apto-3d-range-start', clampAptoValue(start, 0, 100) + '%');
+    range.style.setProperty('--apto-3d-range-end', clampAptoValue(end, 0, 100) + '%');
+    range.style.setProperty('--apto-3d-range-min-position', minPosition);
+    range.style.setProperty('--apto-3d-range-max-position', maxPosition);
+    minInput.setAttribute('aria-valuetext', getAptoRangeFormattedValue(range, minInput.value, true));
+    maxInput.setAttribute('aria-valuetext', getAptoRangeFormattedValue(range, maxInput.value, true));
+
+    if (output) {
+      output.value = minText + separator + maxText;
       output.textContent = output.value;
+    }
+
+    var minBubble = ensureAptoBubble(
+      range,
+      '[data-apto-range-bubble="min"]',
+      'apto-3d-range__bubble',
+      'min'
+    );
+    var maxBubble = ensureAptoBubble(
+      range,
+      '[data-apto-range-bubble="max"]',
+      'apto-3d-range__bubble',
+      'max'
+    );
+    minBubble.textContent = minText;
+    maxBubble.textContent = maxText;
+
+    renderAptoTicks(
+      range,
+      minInput,
+      'data-apto-range-ticks',
+      'apto-3d-range__ticks',
+      'apto-3d-range__tick'
+    );
+
+    if (changedInput === minInput) {
+      minInput.style.zIndex = '5';
+      maxInput.style.zIndex = '4';
+    } else if (changedInput === maxInput) {
+      minInput.style.zIndex = '4';
+      maxInput.style.zIndex = '5';
+    }
+  }
+
+  function getAptoSteppedValue(input, rawValue) {
+    var min = Number(input.min || 0);
+    var max = Number(input.max || 100);
+    var step = input.step && input.step !== 'any' ? Number(input.step) : 1;
+    var stepped = min + (Math.round((rawValue - min) / step) * step);
+    var precision = (String(step).split('.')[1] || '').length;
+
+    return Number(clampAptoValue(stepped, min, max).toFixed(precision));
+  }
+
+  function initApto3DRange(range) {
+    var minInput = range.querySelector('[data-apto-range-min]');
+    var maxInput = range.querySelector('[data-apto-range-max]');
+    var track = range.querySelector('.apto-3d-range__track');
+
+    if (!minInput || !maxInput || !track) return;
+
+    syncApto3DRange(range);
+    if (range.dataset.aptoRangeReady === 'true') return;
+
+    range.dataset.aptoRangeReady = 'true';
+
+    [minInput, maxInput].forEach(function (input) {
+      var handle = input === minInput ? 'min' : 'max';
+      var sync = function () {
+        syncApto3DRange(range, input);
+      };
+
+      input.addEventListener('input', sync);
+      input.addEventListener('change', sync);
+      bindAptoSliderFeedback(input, sync, 'is-' + handle + '-interacting');
+    });
+
+    track.addEventListener('pointerdown', function (event) {
+      if (event.target.closest('input[type="range"]')) return;
+      if (minInput.disabled && maxInput.disabled) return;
+
+      var rect = track.getBoundingClientRect();
+      var radius = SLIDER_THUMB_SIZE / 2;
+      var travel = Math.max(1, rect.width - SLIDER_THUMB_SIZE);
+      var fromLeft = clampAptoValue(event.clientX - rect.left - radius, 0, travel);
+      var rtl = getComputedStyle(range).direction === 'rtl';
+      var ratio = rtl ? 1 - (fromLeft / travel) : fromLeft / travel;
+      var rawValue = Number(minInput.min || 0)
+        + (ratio * (Number(minInput.max || 100) - Number(minInput.min || 0)));
+      var value = getAptoSteppedValue(minInput, rawValue);
+      var minDistance = Math.abs(value - Number(minInput.value));
+      var maxDistance = Math.abs(value - Number(maxInput.value));
+      var target = (minDistance <= maxDistance && !minInput.disabled) || maxInput.disabled
+        ? minInput
+        : maxInput;
+
+      target.value = String(value);
+      target.dispatchEvent(new Event('input', { bubbles: true }));
+      target.focus();
+    });
+
+    if (typeof ResizeObserver !== 'undefined') {
+      var observer = new ResizeObserver(function () {
+        syncApto3DRange(range);
+      });
+      observer.observe(track);
+      range.aptoRangeResizeObserver = observer;
     }
   }
 
@@ -200,8 +553,20 @@
       input.addEventListener('change', function () {
         syncApto3DSlider(input);
       });
+      bindAptoSliderFeedback(input, function () {
+        syncApto3DSlider(input);
+      }, 'is-interacting');
+
+      if (typeof ResizeObserver !== 'undefined') {
+        var observer = new ResizeObserver(function () {
+          syncApto3DSlider(input);
+        });
+        observer.observe(input);
+        input.aptoSliderResizeObserver = observer;
+      }
     });
 
+    root.querySelectorAll(RANGE_SELECTOR).forEach(initApto3DRange);
     root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
   }
 
@@ -295,6 +660,7 @@
     resetAptoButton: resetAptoButton,
     setAptoButtonLoading: setAptoButtonLoading,
     setAptoButtonSuccess: setAptoButtonSuccess,
+    syncApto3DRange: syncApto3DRange,
     syncApto3DSlider: syncApto3DSlider
   };
 

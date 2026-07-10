@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apto 3D Buttons CDN Usage</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.css">
-  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.global.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.css">
+  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.global.js" defer></script>
 </head>
 <body>
   <button class="apto-3d-button apto-3d-button--violet" type="button">
@@ -37,8 +37,20 @@
       <span class="apto-3d-slider__label">Volume</span>
       <output class="apto-3d-slider__output" data-apto-slider-output></output>
     </span>
-    <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%">
+    <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%" data-apto-slider-ticks="10">
   </label>
+
+  <div class="apto-3d-range apto-3d-range--primary" data-apto-range data-apto-range-prefix="$" data-apto-range-ticks="20">
+    <div class="apto-3d-range__header">
+      <span class="apto-3d-range__label">Price range</span>
+      <output class="apto-3d-range__output" data-apto-range-output></output>
+    </div>
+    <div class="apto-3d-range__track">
+      <span class="apto-3d-range__rail" aria-hidden="true"><span class="apto-3d-range__fill"></span></span>
+      <input type="range" name="price-min" min="0" max="100" step="5" value="20" aria-label="Minimum price" data-apto-range-min>
+      <input type="range" name="price-max" min="0" max="100" step="5" value="80" aria-label="Maximum price" data-apto-range-max>
+    </div>
+  </div>
 
   <div class="apto-3d-scrollbar apto-3d-scrollbar--violet" style="max-height: 120px;">
     <p>Scrollable content</p><p>More content</p><p>More content</p><p>More content</p>

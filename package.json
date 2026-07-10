@@ -1,7 +1,7 @@
 {
   "name": "apto-3d-buttons",
-  "version": "0.4.3",
-  "description": "Reusable, shadow-free Apto 3D buttons, form controls, tabs, sliders, and scrollbars.",
+  "version": "0.5.0",
+  "description": "Reusable, shadow-free Apto 3D buttons, controls, tabs, sliders, ranges, and scrollbars.",
   "type": "module",
   "license": "MIT",
   "repository": {

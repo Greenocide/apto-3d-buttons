@@ -2,7 +2,19 @@ const TOGGLE_SELECTOR = '[data-apto-toggle]';
 const COMPLETE_SELECTOR = '[data-apto-complete]';
 const BUTTON_SELECTOR = '.apto-3d-button';
 const SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
+const RANGE_SELECTOR = '.apto-3d-range';
 const TABS_SELECTOR = '[data-apto-tabs]';
+const SLIDER_PRESS_KEYS = new Set([
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'End',
+  'Home',
+  'PageDown',
+  'PageUp'
+]);
+const SLIDER_THUMB_SIZE = 24;
 const ACTIVE_VALUE_ATTRIBUTES = [
   ['aptoActiveIcon', 'activeIcon'],
   ['aptoActiveFill', 'activeFill'],
@@ -148,23 +160,357 @@ export function completeButtonWithSuccess(button, options = {}) {
   });
 }
 
+function clampAptoValue(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function getAptoRangeMetrics(input) {
+  const min = Number(input.min || 0);
+  const max = Number(input.max || 100);
+  const value = clampAptoValue(Number(input.value), min, max);
+  const progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
+
+  return { max, min, progress, value };
+}
+
+function getAptoFormattedValue(input, value = input.value, aria = false) {
+  const prefix = aria && input.dataset.aptoSliderAriaPrefix != null
+    ? input.dataset.aptoSliderAriaPrefix
+    : (input.dataset.aptoSliderPrefix || '');
+  let suffix = aria && input.dataset.aptoSliderAriaSuffix != null
+    ? input.dataset.aptoSliderAriaSuffix
+    : (input.dataset.aptoSliderSuffix || '');
+
+  if (aria && input.dataset.aptoSliderAriaSuffix == null && suffix.trim() === '%') {
+    suffix = ' percent';
+  }
+
+  return `${prefix}${value}${suffix}`;
+}
+
+function getAptoThumbPosition(input, progress) {
+  const width = input.clientWidth;
+
+  if (!width) return `${progress}%`;
+
+  const radius = SLIDER_THUMB_SIZE / 2;
+  const travel = Math.max(0, width - SLIDER_THUMB_SIZE);
+  return `${radius + (travel * progress / 100)}px`;
+}
+
+function ensureAptoBubble(owner, selector, className, handle) {
+  let bubble = owner.querySelector(selector);
+
+  if (!bubble) {
+    bubble = document.createElement('span');
+    bubble.className = className;
+    bubble.setAttribute('aria-hidden', 'true');
+    if (handle) bubble.dataset.aptoRangeBubble = handle;
+    owner.append(bubble);
+  }
+
+  return bubble;
+}
+
+function getAptoTickStep(rawValue, input) {
+  if (rawValue && rawValue !== 'true') {
+    const customStep = Number(rawValue);
+    if (customStep > 0) return customStep;
+  }
+
+  if (input.step && input.step !== 'any') {
+    const inputStep = Number(input.step);
+    if (inputStep > 0) return inputStep;
+  }
+
+  return 1;
+}
+
+function renderAptoTicks(owner, input, attribute, className, tickClassName) {
+  const rawValue = owner.hasAttribute(attribute)
+    ? owner.getAttribute(attribute)
+    : input.getAttribute(attribute);
+  const existing = owner.querySelector(`.${className}`);
+
+  if (rawValue == null || rawValue === 'false') {
+    existing?.remove();
+    return;
+  }
+
+  const { max, min } = getAptoRangeMetrics(input);
+  const step = getAptoTickStep(rawValue, input);
+  const signature = `${min}:${max}:${step}`;
+
+  if (existing?.dataset.aptoTickSignature === signature) return;
+
+  existing?.remove();
+
+  const count = Math.floor((max - min) / step) + 1;
+  if (count < 2 || count > 101) return;
+
+  const ticks = document.createElement('span');
+  ticks.className = className;
+  ticks.dataset.aptoTickSignature = signature;
+  ticks.setAttribute('aria-hidden', 'true');
+
+  for (let index = 0; index < count; index += 1) {
+    const tick = document.createElement('i');
+    const value = min + (index * step);
+    const position = ((value - min) / (max - min)) * 100;
+    tick.className = tickClassName;
+    tick.style.setProperty('--apto-3d-tick-position', `${position}%`);
+    ticks.append(tick);
+  }
+
+  if ((min + ((count - 1) * step)) < max) {
+    const tick = document.createElement('i');
+    tick.className = tickClassName;
+    tick.style.setProperty('--apto-3d-tick-position', '100%');
+    ticks.append(tick);
+  }
+
+  owner.append(ticks);
+}
+
+function setAptoSliderPressState(input, active, ownerClass) {
+  const owner = input.closest('.apto-3d-slider, .apto-3d-range');
+
+  input.classList.toggle('is-pressing', active);
+  owner?.classList.toggle(ownerClass, active);
+}
+
+function bindAptoSliderFeedback(input, sync, ownerClass) {
+  const stop = () => setAptoSliderPressState(input, false, ownerClass);
+  const start = () => {
+    if (input.disabled) return;
+    setAptoSliderPressState(input, true, ownerClass);
+    sync();
+  };
+
+  input.addEventListener('pointerdown', () => {
+    start();
+
+    const endPointer = () => {
+      stop();
+      window.removeEventListener('pointerup', endPointer);
+      window.removeEventListener('pointercancel', endPointer);
+    };
+
+    window.addEventListener('pointerup', endPointer);
+    window.addEventListener('pointercancel', endPointer);
+  });
+
+  input.addEventListener('keydown', (event) => {
+    if (!SLIDER_PRESS_KEYS.has(event.key) || input.disabled) return;
+
+    window.clearTimeout(input.aptoSliderPressTimer);
+    start();
+    window.requestAnimationFrame(sync);
+  });
+
+  input.addEventListener('keyup', (event) => {
+    if (!SLIDER_PRESS_KEYS.has(event.key)) return;
+
+    window.clearTimeout(input.aptoSliderPressTimer);
+    input.aptoSliderPressTimer = window.setTimeout(stop, 120);
+  });
+
+  input.addEventListener('blur', stop);
+}
+
 export function syncApto3DSlider(input) {
   if (!input) return;
 
-  const min = Number(input.min || 0);
-  const max = Number(input.max || 100);
-  const value = Number(input.value);
-  const progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
   const slider = input.closest('.apto-3d-slider');
-  const output = slider?.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+  if (!slider) return;
 
-  input.style.setProperty('--apto-3d-slider-progress', `${Math.min(100, Math.max(0, progress))}%`);
+  const { progress } = getAptoRangeMetrics(input);
+  const position = getAptoThumbPosition(input, progress);
+  const output = slider.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+  const formattedValue = getAptoFormattedValue(input);
+  const ariaValue = getAptoFormattedValue(input, input.value, true);
+
+  input.style.setProperty('--apto-3d-slider-progress', position);
+  slider.style.setProperty('--apto-3d-slider-bubble-position', position);
+  input.setAttribute('aria-valuetext', ariaValue);
 
   if (output) {
-    const prefix = input.dataset.aptoSliderPrefix || '';
-    const suffix = input.dataset.aptoSliderSuffix || '';
-    output.value = `${prefix}${input.value}${suffix}`;
+    output.value = formattedValue;
+    output.textContent = formattedValue;
+  }
+
+  if (input.dataset.aptoSliderBubble !== 'false') {
+    const bubble = ensureAptoBubble(
+      slider,
+      '.apto-3d-slider__bubble',
+      'apto-3d-slider__bubble'
+    );
+    bubble.textContent = formattedValue;
+  } else {
+    slider.querySelector('.apto-3d-slider__bubble')?.remove();
+  }
+
+  renderAptoTicks(
+    slider,
+    input,
+    'data-apto-slider-ticks',
+    'apto-3d-slider__ticks',
+    'apto-3d-slider__tick'
+  );
+}
+
+function getAptoRangeFormattedValue(range, value, aria = false) {
+  const prefixKey = aria ? 'aptoRangeAriaPrefix' : 'aptoRangePrefix';
+  const suffixKey = aria ? 'aptoRangeAriaSuffix' : 'aptoRangeSuffix';
+  const prefix = range.dataset[prefixKey] != null
+    ? range.dataset[prefixKey]
+    : (range.dataset.aptoRangePrefix || '');
+  let suffix = range.dataset[suffixKey] != null
+    ? range.dataset[suffixKey]
+    : (range.dataset.aptoRangeSuffix || '');
+
+  if (aria && range.dataset.aptoRangeAriaSuffix == null && suffix.trim() === '%') {
+    suffix = ' percent';
+  }
+
+  return `${prefix}${value}${suffix}`;
+}
+
+export function syncApto3DRange(range, changedInput = null) {
+  if (!range) return;
+
+  const minInput = range.querySelector('[data-apto-range-min]');
+  const maxInput = range.querySelector('[data-apto-range-max]');
+  if (!minInput || !maxInput) return;
+
+  let minValue = Number(minInput.value);
+  let maxValue = Number(maxInput.value);
+
+  if (minValue > maxValue) {
+    if (changedInput === maxInput) {
+      maxValue = minValue;
+      maxInput.value = String(maxValue);
+    } else {
+      minValue = maxValue;
+      minInput.value = String(minValue);
+    }
+  }
+
+  const boundsMin = Number(minInput.min || 0);
+  const boundsMax = Number(minInput.max || 100);
+  const span = boundsMax - boundsMin;
+  const start = span ? ((minValue - boundsMin) / span) * 100 : 0;
+  const end = span ? ((maxValue - boundsMin) / span) * 100 : 100;
+  const minPosition = getAptoThumbPosition(minInput, start);
+  const maxPosition = getAptoThumbPosition(maxInput, end);
+  const output = range.querySelector('[data-apto-range-output], .apto-3d-range__output');
+  const separator = range.dataset.aptoRangeSeparator || ' – ';
+  const minText = getAptoRangeFormattedValue(range, minInput.value);
+  const maxText = getAptoRangeFormattedValue(range, maxInput.value);
+
+  range.style.setProperty('--apto-3d-range-start', `${clampAptoValue(start, 0, 100)}%`);
+  range.style.setProperty('--apto-3d-range-end', `${clampAptoValue(end, 0, 100)}%`);
+  range.style.setProperty('--apto-3d-range-min-position', minPosition);
+  range.style.setProperty('--apto-3d-range-max-position', maxPosition);
+  minInput.setAttribute('aria-valuetext', getAptoRangeFormattedValue(range, minInput.value, true));
+  maxInput.setAttribute('aria-valuetext', getAptoRangeFormattedValue(range, maxInput.value, true));
+
+  if (output) {
+    output.value = `${minText}${separator}${maxText}`;
     output.textContent = output.value;
+  }
+
+  const minBubble = ensureAptoBubble(
+    range,
+    '[data-apto-range-bubble="min"]',
+    'apto-3d-range__bubble',
+    'min'
+  );
+  const maxBubble = ensureAptoBubble(
+    range,
+    '[data-apto-range-bubble="max"]',
+    'apto-3d-range__bubble',
+    'max'
+  );
+  minBubble.textContent = minText;
+  maxBubble.textContent = maxText;
+
+  renderAptoTicks(
+    range,
+    minInput,
+    'data-apto-range-ticks',
+    'apto-3d-range__ticks',
+    'apto-3d-range__tick'
+  );
+
+  if (changedInput === minInput) {
+    minInput.style.zIndex = '5';
+    maxInput.style.zIndex = '4';
+  } else if (changedInput === maxInput) {
+    minInput.style.zIndex = '4';
+    maxInput.style.zIndex = '5';
+  }
+}
+
+function getAptoSteppedValue(input, rawValue) {
+  const min = Number(input.min || 0);
+  const max = Number(input.max || 100);
+  const step = input.step && input.step !== 'any' ? Number(input.step) : 1;
+  const stepped = min + (Math.round((rawValue - min) / step) * step);
+  const precision = (String(step).split('.')[1] || '').length;
+
+  return Number(clampAptoValue(stepped, min, max).toFixed(precision));
+}
+
+function initApto3DRange(range) {
+  const minInput = range.querySelector('[data-apto-range-min]');
+  const maxInput = range.querySelector('[data-apto-range-max]');
+  const track = range.querySelector('.apto-3d-range__track');
+
+  if (!minInput || !maxInput || !track) return;
+
+  syncApto3DRange(range);
+  if (range.dataset.aptoRangeReady === 'true') return;
+
+  range.dataset.aptoRangeReady = 'true';
+
+  [minInput, maxInput].forEach((input) => {
+    const handle = input === minInput ? 'min' : 'max';
+    const sync = () => syncApto3DRange(range, input);
+
+    input.addEventListener('input', sync);
+    input.addEventListener('change', sync);
+    bindAptoSliderFeedback(input, sync, `is-${handle}-interacting`);
+  });
+
+  track.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('input[type="range"]')) return;
+    if (minInput.disabled && maxInput.disabled) return;
+
+    const rect = track.getBoundingClientRect();
+    const radius = SLIDER_THUMB_SIZE / 2;
+    const travel = Math.max(1, rect.width - SLIDER_THUMB_SIZE);
+    const fromLeft = clampAptoValue(event.clientX - rect.left - radius, 0, travel);
+    const rtl = getComputedStyle(range).direction === 'rtl';
+    const ratio = rtl ? 1 - (fromLeft / travel) : fromLeft / travel;
+    const rawValue = Number(minInput.min || 0)
+      + (ratio * (Number(minInput.max || 100) - Number(minInput.min || 0)));
+    const value = getAptoSteppedValue(minInput, rawValue);
+    const minDistance = Math.abs(value - Number(minInput.value));
+    const maxDistance = Math.abs(value - Number(maxInput.value));
+    const target = (minDistance <= maxDistance && !minInput.disabled) || maxInput.disabled
+      ? minInput
+      : maxInput;
+
+    target.value = String(value);
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    target.focus();
+  });
+
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(() => syncApto3DRange(range));
+    observer.observe(track);
+    range.aptoRangeResizeObserver = observer;
   }
 }
 
@@ -264,8 +610,16 @@ export function initApto3DButtons(root = document) {
     input.dataset.aptoSliderReady = 'true';
     input.addEventListener('input', () => syncApto3DSlider(input));
     input.addEventListener('change', () => syncApto3DSlider(input));
+    bindAptoSliderFeedback(input, () => syncApto3DSlider(input), 'is-interacting');
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(() => syncApto3DSlider(input));
+      observer.observe(input);
+      input.aptoSliderResizeObserver = observer;
+    }
   });
 
+  root.querySelectorAll(RANGE_SELECTOR).forEach(initApto3DRange);
   root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
 }
 
@@ -277,6 +631,7 @@ if (typeof window !== 'undefined') {
     resetAptoButton,
     setAptoButtonLoading,
     setAptoButtonSuccess,
+    syncApto3DRange,
     syncApto3DSlider
   };
 }

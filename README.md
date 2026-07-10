@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -170,17 +170,53 @@ Use a native range input inside `apto-3d-slider`. The required library JS initia
     <span class="apto-3d-slider__label">Volume</span>
     <output class="apto-3d-slider__output" data-apto-slider-output></output>
   </span>
-  <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%">
+  <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%" data-apto-slider-ticks="10">
 </label>
 ```
 
-The input supports native `min`, `max`, `step`, `value`, and `disabled` attributes. Optional `data-apto-slider-prefix` and `data-apto-slider-suffix` values format the output. If JavaScript changes the value directly, synchronize it with:
+The input supports native `min`, `max`, `step`, `value`, and `disabled` attributes. The library adds a value bubble during pointer or keyboard interaction, keyboard press depth, precise Firefox progress, and `aria-valuetext` synchronization.
+
+- `data-apto-slider-prefix` and `data-apto-slider-suffix` format the output and bubble.
+- `data-apto-slider-aria-prefix` and `data-apto-slider-aria-suffix` override spoken formatting. A `%` suffix automatically becomes `percent`.
+- `data-apto-slider-ticks` uses the native `step`; a numeric value such as `data-apto-slider-ticks="10"` sets a separate tick interval.
+- `data-apto-slider-bubble="false"` disables the interaction bubble.
+- Add `dir="rtl"` to the slider or an ancestor for right-to-left fill, ticks, and bubble positioning.
+
+If JavaScript changes the value directly, synchronize it with:
 
 ```js
 window.Apto3DButtons.syncApto3DSlider(rangeInput);
 ```
 
 Custom slider variables are `--apto-3d-slider-bg`, `--apto-3d-slider-edge`, `--apto-3d-slider-focus`, `--apto-3d-slider-off-bg`, `--apto-3d-slider-off-edge`, and `--apto-3d-slider-thumb`.
+
+## Dual-Handle Range
+
+Use `apto-3d-range` for min/max selection. Both handles are real range inputs and submit their own form values.
+
+```html
+<div class="apto-3d-range apto-3d-range--primary" data-apto-range data-apto-range-prefix="$" data-apto-range-ticks="20">
+  <div class="apto-3d-range__header">
+    <span class="apto-3d-range__label">Price range</span>
+    <output class="apto-3d-range__output" data-apto-range-output></output>
+  </div>
+  <div class="apto-3d-range__track">
+    <span class="apto-3d-range__rail" aria-hidden="true">
+      <span class="apto-3d-range__fill"></span>
+    </span>
+    <input type="range" name="price-min" min="0" max="100" step="5" value="20" aria-label="Minimum price" data-apto-range-min>
+    <input type="range" name="price-max" min="0" max="100" step="5" value="80" aria-label="Maximum price" data-apto-range-max>
+  </div>
+</div>
+```
+
+The handles cannot cross. Pointer dragging, rail clicks, keyboard controls, bubbles, ticks, RTL, outputs, and `aria-valuetext` are synchronized automatically. Formatting attributes are `data-apto-range-prefix`, `data-apto-range-suffix`, `data-apto-range-separator`, `data-apto-range-aria-prefix`, and `data-apto-range-aria-suffix`.
+
+For direct JavaScript value changes, call:
+
+```js
+window.Apto3DButtons.syncApto3DRange(rangeElement);
+```
 
 ## Scrollbar
 
@@ -194,7 +230,7 @@ Apply the scrollbar class to any element with constrained dimensions. The class 
 
 Custom scrollbar variables are `--apto-3d-scrollbar-bg`, `--apto-3d-scrollbar-edge`, and `--apto-3d-scrollbar-track`.
 
-Sliders and scrollbars support the same `rose`, `red`, `orange`, `amber`, `green`, `cyan`, `blue`, `violet`, `slate`, `primary`, `success`, and `danger` preset names.
+Sliders, dual ranges, and scrollbars support the same `rose`, `red`, `orange`, `amber`, `green`, `cyan`, `blue`, `violet`, `slate`, `primary`, `success`, and `danger` preset names.
 
 ## Radio Selection
 
@@ -395,14 +431,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.4.4
+git tag v0.5.1
 git push origin main
-git push origin v0.4.4
+git push origin v0.5.1
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.4/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.4/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.global.js" defer></script>
 ```

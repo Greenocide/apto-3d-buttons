@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apto 3D Buttons - Gallery</title>
-<link rel="stylesheet" href="./src/apto-3d-buttons.css?v=0.4.3" />
+<link rel="stylesheet" href="./src/apto-3d-buttons.css?v=0.5.0" />
 <style>
   *, *::before, *::after { box-sizing: border-box; }
 
@@ -458,14 +458,14 @@
           <span class="apto-3d-slider__label">Volume</span>
           <output class="apto-3d-slider__output" data-apto-slider-output></output>
         </span>
-        <input type="range" name="volume" min="0" max="100" value="64" data-apto-slider-suffix="%">
+        <input type="range" name="volume" min="0" max="100" value="64" data-apto-slider-suffix="%" data-apto-slider-ticks="10">
       </label>
       <label class="apto-3d-slider apto-3d-slider--success">
         <span class="apto-3d-slider__header">
           <span class="apto-3d-slider__label">Capacity</span>
           <output class="apto-3d-slider__output" data-apto-slider-output></output>
         </span>
-        <input type="range" name="capacity" min="10" max="50" value="28" step="2" data-apto-slider-suffix=" GB">
+        <input type="range" name="capacity" min="10" max="50" value="28" step="2" data-apto-slider-suffix=" GB" data-apto-slider-ticks="10">
       </label>
       <label class="apto-3d-slider apto-3d-slider--violet">
         <span class="apto-3d-slider__header">
@@ -474,8 +474,31 @@
         </span>
         <input type="range" name="disabled-range" min="0" max="10" value="4" disabled>
       </label>
+      <label class="apto-3d-slider apto-3d-slider--amber" dir="rtl">
+        <span class="apto-3d-slider__header">
+          <span class="apto-3d-slider__label">RTL volume</span>
+          <output class="apto-3d-slider__output" data-apto-slider-output></output>
+        </span>
+        <input type="range" name="rtl-volume" min="0" max="100" value="35" data-apto-slider-suffix="%" data-apto-slider-ticks="25">
+      </label>
     </div>
-    <p class="note">The range input remains native and submits normally. The required library JS updates the filled track and optional output as its value changes.</p>
+    <p class="note">Native sliders include drag and keyboard bubbles, optional step ticks, formatted screen-reader values, flattened disabled styling, and RTL fill direction.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Dual-handle range</p>
+    <div class="apto-3d-range apto-3d-range--primary" data-apto-range data-apto-range-prefix="$" data-apto-range-ticks="20">
+      <div class="apto-3d-range__header">
+        <span class="apto-3d-range__label">Price range</span>
+        <output class="apto-3d-range__output" data-apto-range-output></output>
+      </div>
+      <div class="apto-3d-range__track">
+        <span class="apto-3d-range__rail" aria-hidden="true"><span class="apto-3d-range__fill"></span></span>
+        <input type="range" name="price-min" min="0" max="100" step="5" value="20" aria-label="Minimum price" data-apto-range-min>
+        <input type="range" name="price-max" min="0" max="100" step="5" value="80" aria-label="Maximum price" data-apto-range-max>
+      </div>
+    </div>
+    <p class="note">The two native inputs cannot cross. Drag either handle, use its arrow keys, or click the rail to move the nearest handle.</p>
   </section>
 
   <section>
@@ -512,7 +535,7 @@
 </main>
 
 <script type="module">
-  import { completeButtonWithSuccess, initApto3DButtons } from './src/apto-3d-buttons.js?v=0.4.3';
+  import { completeButtonWithSuccess, initApto3DButtons } from './src/apto-3d-buttons.js?v=0.5.0';
 
   initApto3DButtons();
 
