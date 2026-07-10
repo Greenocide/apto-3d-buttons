@@ -742,13 +742,245 @@
 .apto-3d-checkbox.apto-3d-checkbox--slate,
 .apto-3d-switch.apto-3d-switch--slate { --apto-3d-control-bg: #475569; --apto-3d-control-edge: #1e293b; --apto-3d-control-focus: #334155; }
 
+/* Native range slider with a JS-synced filled track. */
+.apto-3d-slider.apto-3d-slider {
+  --apto-3d-slider-bg: #5b7cff;
+  --apto-3d-slider-edge: #3348b4;
+  --apto-3d-slider-focus: #2d4bff;
+  --apto-3d-slider-off-bg: #e2e8f0;
+  --apto-3d-slider-off-edge: #94a3b8;
+  --apto-3d-slider-thumb: #ffffff;
+  --apto-3d-slider-progress: 50%;
+
+  box-sizing: border-box;
+  display: grid;
+  width: min(100%, 360px);
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  background-image: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+}
+
+.apto-3d-slider.apto-3d-slider *,
+.apto-3d-slider.apto-3d-slider *::before,
+.apto-3d-slider.apto-3d-slider *::after {
+  box-sizing: border-box;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.apto-3d-slider.apto-3d-slider > .apto-3d-slider__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  color: inherit;
+  font: inherit;
+}
+
+.apto-3d-slider.apto-3d-slider .apto-3d-slider__label {
+  color: inherit;
+  font: inherit;
+}
+
+.apto-3d-slider.apto-3d-slider .apto-3d-slider__output {
+  flex: 0 0 auto;
+  color: var(--apto-3d-slider-edge);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  background-image: none;
+  cursor: pointer;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]::-webkit-slider-runnable-track {
+  box-sizing: border-box;
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(to right, var(--apto-3d-slider-bg) 0 var(--apto-3d-slider-progress), var(--apto-3d-slider-off-bg) var(--apto-3d-slider-progress) 100%) 0 0 / 100% 7px no-repeat,
+    linear-gradient(to right, var(--apto-3d-slider-edge) 0 var(--apto-3d-slider-progress), var(--apto-3d-slider-off-edge) var(--apto-3d-slider-progress) 100%) 0 0 / 100% 10px no-repeat;
+  box-shadow: none;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]::-moz-range-track {
+  box-sizing: border-box;
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(to right, var(--apto-3d-slider-bg) 0 var(--apto-3d-slider-progress), var(--apto-3d-slider-off-bg) var(--apto-3d-slider-progress) 100%) 0 0 / 100% 7px no-repeat,
+    linear-gradient(to right, var(--apto-3d-slider-edge) 0 var(--apto-3d-slider-progress), var(--apto-3d-slider-off-edge) var(--apto-3d-slider-progress) 100%) 0 0 / 100% 10px no-repeat;
+  box-shadow: none;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  margin-top: -7px;
+  border: 0;
+  border-bottom: 4px solid var(--apto-3d-slider-edge);
+  border-radius: 50%;
+  background: var(--apto-3d-slider-thumb);
+  background-image: none;
+  box-shadow: none;
+  filter: none;
+  transform: translateY(0);
+  transition: border-bottom-width 100ms ease, transform 100ms ease;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-bottom: 4px solid var(--apto-3d-slider-edge);
+  border-radius: 50%;
+  background: var(--apto-3d-slider-thumb);
+  background-image: none;
+  box-shadow: none;
+  filter: none;
+  transform: translateY(0);
+  transition: border-bottom-width 100ms ease, transform 100ms ease;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]:active::-webkit-slider-thumb {
+  border-bottom-width: 2px;
+  transform: translateY(2px);
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]:active::-moz-range-thumb {
+  border-bottom-width: 2px;
+  transform: translateY(2px);
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--apto-3d-slider-focus);
+  outline-offset: 3px;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--apto-3d-slider-focus);
+  outline-offset: 3px;
+}
+
+.apto-3d-slider.apto-3d-slider:has(> input[type="range"]:disabled) {
+  opacity: 0.58;
+}
+
+.apto-3d-slider.apto-3d-slider > input[type="range"]:disabled {
+  cursor: default;
+}
+
+/* Apply to any constrained element that should scroll. */
+.apto-3d-scrollbar.apto-3d-scrollbar {
+  --apto-3d-scrollbar-bg: #5b7cff;
+  --apto-3d-scrollbar-edge: #3348b4;
+  --apto-3d-scrollbar-track: #e2e8f0;
+
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--apto-3d-scrollbar-bg) var(--apto-3d-scrollbar-track);
+}
+
+.apto-3d-scrollbar.apto-3d-scrollbar::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.apto-3d-scrollbar.apto-3d-scrollbar::-webkit-scrollbar-track {
+  border: 0;
+  border-radius: 7px;
+  background: var(--apto-3d-scrollbar-track);
+  background-image: none;
+  box-shadow: none;
+}
+
+.apto-3d-scrollbar.apto-3d-scrollbar::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  border: 3px solid var(--apto-3d-scrollbar-track);
+  border-right-color: var(--apto-3d-scrollbar-edge);
+  border-bottom-color: var(--apto-3d-scrollbar-edge);
+  border-radius: 8px;
+  background: var(--apto-3d-scrollbar-bg);
+  background-image: none;
+  box-shadow: none;
+}
+
+.apto-3d-scrollbar.apto-3d-scrollbar::-webkit-scrollbar-corner {
+  background: var(--apto-3d-scrollbar-track);
+}
+
+.apto-3d-slider.apto-3d-slider--rose { --apto-3d-slider-bg: hsl(345deg 100% 47%); --apto-3d-slider-edge: hsl(340deg 100% 32%); --apto-3d-slider-focus: hsl(345deg 100% 38%); }
+.apto-3d-scrollbar.apto-3d-scrollbar--rose { --apto-3d-scrollbar-bg: hsl(345deg 100% 47%); --apto-3d-scrollbar-edge: hsl(340deg 100% 32%); }
+.apto-3d-slider.apto-3d-slider--red,
+.apto-3d-slider.apto-3d-slider--danger { --apto-3d-slider-bg: #ef4444; --apto-3d-slider-edge: #991b1b; --apto-3d-slider-focus: #dc2626; }
+.apto-3d-scrollbar.apto-3d-scrollbar--red,
+.apto-3d-scrollbar.apto-3d-scrollbar--danger { --apto-3d-scrollbar-bg: #ef4444; --apto-3d-scrollbar-edge: #991b1b; }
+.apto-3d-slider.apto-3d-slider--orange { --apto-3d-slider-bg: #f97316; --apto-3d-slider-edge: #9a3412; --apto-3d-slider-focus: #ea580c; }
+.apto-3d-scrollbar.apto-3d-scrollbar--orange { --apto-3d-scrollbar-bg: #f97316; --apto-3d-scrollbar-edge: #9a3412; }
+.apto-3d-slider.apto-3d-slider--amber { --apto-3d-slider-bg: #f59e0b; --apto-3d-slider-edge: #92400e; --apto-3d-slider-focus: #d97706; }
+.apto-3d-scrollbar.apto-3d-scrollbar--amber { --apto-3d-scrollbar-bg: #f59e0b; --apto-3d-scrollbar-edge: #92400e; }
+.apto-3d-slider.apto-3d-slider--green,
+.apto-3d-slider.apto-3d-slider--success { --apto-3d-slider-bg: #22b573; --apto-3d-slider-edge: #116e45; --apto-3d-slider-focus: #168f5a; }
+.apto-3d-scrollbar.apto-3d-scrollbar--green,
+.apto-3d-scrollbar.apto-3d-scrollbar--success { --apto-3d-scrollbar-bg: #22b573; --apto-3d-scrollbar-edge: #116e45; }
+.apto-3d-slider.apto-3d-slider--cyan { --apto-3d-slider-bg: #0891b2; --apto-3d-slider-edge: #155e75; --apto-3d-slider-focus: #0e7490; }
+.apto-3d-scrollbar.apto-3d-scrollbar--cyan { --apto-3d-scrollbar-bg: #0891b2; --apto-3d-scrollbar-edge: #155e75; }
+.apto-3d-slider.apto-3d-slider--blue,
+.apto-3d-slider.apto-3d-slider--primary { --apto-3d-slider-bg: #5b7cff; --apto-3d-slider-edge: #3348b4; --apto-3d-slider-focus: #2d4bff; }
+.apto-3d-scrollbar.apto-3d-scrollbar--blue,
+.apto-3d-scrollbar.apto-3d-scrollbar--primary { --apto-3d-scrollbar-bg: #5b7cff; --apto-3d-scrollbar-edge: #3348b4; }
+.apto-3d-slider.apto-3d-slider--violet { --apto-3d-slider-bg: #8b5cf6; --apto-3d-slider-edge: #5b21b6; --apto-3d-slider-focus: #7c3aed; }
+.apto-3d-scrollbar.apto-3d-scrollbar--violet { --apto-3d-scrollbar-bg: #8b5cf6; --apto-3d-scrollbar-edge: #5b21b6; }
+.apto-3d-slider.apto-3d-slider--slate { --apto-3d-slider-bg: #475569; --apto-3d-slider-edge: #1e293b; --apto-3d-slider-focus: #334155; }
+.apto-3d-scrollbar.apto-3d-scrollbar--slate { --apto-3d-scrollbar-bg: #475569; --apto-3d-scrollbar-edge: #1e293b; }
+
 @media (prefers-reduced-motion: reduce) {
   .apto-3d-button.apto-3d-button,
   .apto-3d-button.apto-3d-button *,
   .apto-3d-button.apto-3d-button::before,
   .apto-3d-button.apto-3d-button::after,
   .apto-3d-checkbox.apto-3d-checkbox *,
-  .apto-3d-switch.apto-3d-switch * {
+  .apto-3d-switch.apto-3d-switch *,
+  .apto-3d-slider.apto-3d-slider * {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }

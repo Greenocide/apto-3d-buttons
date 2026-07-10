@@ -7,15 +7,15 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
 
 ## Theme Resistance
 
-The base class uses stronger selectors and resets common theme effects on Apto buttons, including hover backgrounds, gradients, box shadows, text shadows, filters, transforms, and text decoration. Load the Apto CSS after your theme CSS when possible.
+The component classes use stronger selectors and reset common theme effects on Apto controls, including hover backgrounds, box shadows, text shadows, filters, transforms, and text decoration. Load the Apto CSS after your theme CSS when possible.
 
 ## Basic Button
 
@@ -159,6 +159,42 @@ Custom colors can be applied inline or in a class using these variables:
   <span class="apto-3d-switch__label">Custom setting</span>
 </label>
 ```
+
+## Slider
+
+Use a native range input inside `apto-3d-slider`. The required library JS initializes the filled track and keeps the optional output synchronized.
+
+```html
+<label class="apto-3d-slider apto-3d-slider--primary">
+  <span class="apto-3d-slider__header">
+    <span class="apto-3d-slider__label">Volume</span>
+    <output class="apto-3d-slider__output" data-apto-slider-output></output>
+  </span>
+  <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%">
+</label>
+```
+
+The input supports native `min`, `max`, `step`, `value`, and `disabled` attributes. Optional `data-apto-slider-prefix` and `data-apto-slider-suffix` values format the output. If JavaScript changes the value directly, synchronize it with:
+
+```js
+window.Apto3DButtons.syncApto3DSlider(rangeInput);
+```
+
+Custom slider variables are `--apto-3d-slider-bg`, `--apto-3d-slider-edge`, `--apto-3d-slider-focus`, `--apto-3d-slider-off-bg`, `--apto-3d-slider-off-edge`, and `--apto-3d-slider-thumb`.
+
+## Scrollbar
+
+Apply the scrollbar class to any element with constrained dimensions. The class supplies `overflow: auto`.
+
+```html
+<div class="apto-3d-scrollbar apto-3d-scrollbar--violet" style="max-height: 240px;">
+  <!-- Scrollable content -->
+</div>
+```
+
+Custom scrollbar variables are `--apto-3d-scrollbar-bg`, `--apto-3d-scrollbar-edge`, and `--apto-3d-scrollbar-track`.
+
+Sliders and scrollbars support the same `rose`, `red`, `orange`, `amber`, `green`, `cyan`, `blue`, `violet`, `slate`, `primary`, `success`, and `danger` preset names.
 
 ## Loading Button
 
@@ -322,14 +358,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.2.1
+git tag v0.3.1
 git push origin main
-git push origin v0.2.1
+git push origin v0.3.1
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.1/dist/apto-3d-buttons.global.js" defer></script>
 ```

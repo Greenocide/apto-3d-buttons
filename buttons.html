@@ -69,13 +69,31 @@
     border-radius: 4px;
     font-size: 12px;
   }
+
+  .slider-stack {
+    display: grid;
+    gap: 24px;
+    width: min(100%, 420px);
+  }
+
+  .demo-scroll-area {
+    width: min(100%, 420px);
+    height: 150px;
+    padding: 4px 18px 4px 0;
+  }
+
+  .demo-scroll-item {
+    padding: 10px 12px;
+    border-bottom: 1px solid #d6dae3;
+    font-size: 14px;
+  }
 </style>
 </head>
 <body>
 
 <main class="page">
   <h1>Apto 3D Buttons</h1>
-  <p class="lede">Reusable 3D buttons, checkboxes, and switches with a flatter edge, no drop shadows, native form behavior, icon states, and a loading to success flow.</p>
+  <p class="lede">Reusable 3D buttons, checkboxes, switches, sliders, and scrollbars with a flatter edge, no drop shadows, native form behavior, icon states, and a loading to success flow.</p>
 
   <section>
     <p class="section-label">Text buttons</p>
@@ -346,6 +364,49 @@
       </label>
     </div>
     <p class="note">Switches are native checkboxes with <code>role="switch"</code>. Their values submit with forms without any library-specific JavaScript.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Sliders</p>
+    <div class="slider-stack">
+      <label class="apto-3d-slider apto-3d-slider--primary">
+        <span class="apto-3d-slider__header">
+          <span class="apto-3d-slider__label">Volume</span>
+          <output class="apto-3d-slider__output" data-apto-slider-output></output>
+        </span>
+        <input type="range" name="volume" min="0" max="100" value="64" data-apto-slider-suffix="%">
+      </label>
+      <label class="apto-3d-slider apto-3d-slider--success">
+        <span class="apto-3d-slider__header">
+          <span class="apto-3d-slider__label">Capacity</span>
+          <output class="apto-3d-slider__output" data-apto-slider-output></output>
+        </span>
+        <input type="range" name="capacity" min="10" max="50" value="28" step="2" data-apto-slider-suffix=" GB">
+      </label>
+      <label class="apto-3d-slider apto-3d-slider--violet">
+        <span class="apto-3d-slider__header">
+          <span class="apto-3d-slider__label">Disabled</span>
+          <output class="apto-3d-slider__output" data-apto-slider-output></output>
+        </span>
+        <input type="range" name="disabled-range" min="0" max="10" value="4" disabled>
+      </label>
+    </div>
+    <p class="note">The range input remains native and submits normally. The required library JS updates the filled track and optional output as its value changes.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Scrollbar</p>
+    <div class="demo-scroll-area apto-3d-scrollbar apto-3d-scrollbar--primary" tabindex="0" aria-label="Scrollable demo list">
+      <div class="demo-scroll-item">Dashboard</div>
+      <div class="demo-scroll-item">Projects</div>
+      <div class="demo-scroll-item">Notifications</div>
+      <div class="demo-scroll-item">Team members</div>
+      <div class="demo-scroll-item">Billing history</div>
+      <div class="demo-scroll-item">Security settings</div>
+      <div class="demo-scroll-item">Connected services</div>
+      <div class="demo-scroll-item">API access</div>
+    </div>
+    <p class="note">Add <code>apto-3d-scrollbar</code> and a color preset to any element with constrained dimensions. It supports vertical and horizontal scrolling.</p>
   </section>
 
   <section>

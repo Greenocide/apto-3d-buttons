@@ -1,5 +1,7 @@
 const TOGGLE_SELECTOR = '[data-apto-toggle]';
+const COMPLETE_SELECTOR = '[data-apto-complete]';
 const BUTTON_SELECTOR = '.apto-3d-button';
+const SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
 const ACTIVE_VALUE_ATTRIBUTES = [
   ['aptoActiveIcon', 'activeIcon'],
   ['aptoActiveFill', 'activeFill'],
@@ -145,6 +147,26 @@ export function completeButtonWithSuccess(button, options = {}) {
   });
 }
 
+export function syncApto3DSlider(input) {
+  if (!input) return;
+
+  const min = Number(input.min || 0);
+  const max = Number(input.max || 100);
+  const value = Number(input.value);
+  const progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
+  const slider = input.closest('.apto-3d-slider');
+  const output = slider?.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+
+  input.style.setProperty('--apto-3d-slider-progress', `${Math.min(100, Math.max(0, progress))}%`);
+
+  if (output) {
+    const prefix = input.dataset.aptoSliderPrefix || '';
+    const suffix = input.dataset.aptoSliderSuffix || '';
+    output.value = `${prefix}${input.value}${suffix}`;
+    output.textContent = output.value;
+  }
+}
+
 export function initApto3DButtons(root = document) {
   applyAptoButtonOptions(root);
 
@@ -158,6 +180,27 @@ export function initApto3DButtons(root = document) {
       applyAptoActiveSvgPaint(button, active);
     });
   });
+
+  root.querySelectorAll(COMPLETE_SELECTOR).forEach((button) => {
+    if (button.dataset.aptoCompleteReady === 'true') return;
+
+    button.dataset.aptoCompleteReady = 'true';
+    button.addEventListener('click', () => {
+      completeButtonWithSuccess(button, {
+        loadingMs: button.dataset.aptoLoadingMs,
+        successMs: button.dataset.aptoSuccessMs
+      });
+    });
+  });
+
+  root.querySelectorAll(SLIDER_SELECTOR).forEach((input) => {
+    syncApto3DSlider(input);
+
+    if (input.dataset.aptoSliderReady === 'true') return;
+
+    input.dataset.aptoSliderReady = 'true';
+    input.addEventListener('input', () => syncApto3DSlider(input));
+  });
 }
 
 if (typeof window !== 'undefined') {
@@ -166,6 +209,7 @@ if (typeof window !== 'undefined') {
     initApto3DButtons,
     resetAptoButton,
     setAptoButtonLoading,
-    setAptoButtonSuccess
+    setAptoButtonSuccess,
+    syncApto3DSlider
   };
 }

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apto 3D Buttons CDN Usage</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.css">
-  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.2.0/dist/apto-3d-buttons.global.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.css">
+  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.global.js" defer></script>
 </head>
 <body>
   <button class="apto-3d-button apto-3d-button--violet" type="button">
@@ -31,5 +31,17 @@
     <span class="apto-3d-switch__track" aria-hidden="true"><span class="apto-3d-switch__front"></span></span>
     <span class="apto-3d-switch__label">Notifications</span>
   </label>
+
+  <label class="apto-3d-slider apto-3d-slider--primary">
+    <span class="apto-3d-slider__header">
+      <span class="apto-3d-slider__label">Volume</span>
+      <output class="apto-3d-slider__output" data-apto-slider-output></output>
+    </span>
+    <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%">
+  </label>
+
+  <div class="apto-3d-scrollbar apto-3d-scrollbar--violet" style="max-height: 120px;">
+    <p>Scrollable content</p><p>More content</p><p>More content</p><p>More content</p>
+  </div>
 </body>
 </html>

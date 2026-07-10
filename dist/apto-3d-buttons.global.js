@@ -2,6 +2,7 @@
   var TOGGLE_SELECTOR = '[data-apto-toggle]';
   var COMPLETE_SELECTOR = '[data-apto-complete]';
   var BUTTON_SELECTOR = '.apto-3d-button';
+  var SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
   var ACTIVE_VALUE_ATTRIBUTES = [
     ['aptoActiveIcon', 'activeIcon'],
     ['aptoActiveFill', 'activeFill'],
@@ -59,6 +60,26 @@
     });
   }
 
+  function syncApto3DSlider(input) {
+    if (!input) return;
+
+    var min = Number(input.min || 0);
+    var max = Number(input.max || 100);
+    var value = Number(input.value);
+    var progress = max === min ? 0 : ((value - min) / (max - min)) * 100;
+    var slider = input.closest('.apto-3d-slider');
+    var output = slider && slider.querySelector('[data-apto-slider-output], .apto-3d-slider__output');
+
+    input.style.setProperty('--apto-3d-slider-progress', Math.min(100, Math.max(0, progress)) + '%');
+
+    if (output) {
+      var prefix = input.dataset.aptoSliderPrefix || '';
+      var suffix = input.dataset.aptoSliderSuffix || '';
+      output.value = prefix + input.value + suffix;
+      output.textContent = output.value;
+    }
+  }
+
   function initApto3DButtons(root) {
     root = root || document;
 
@@ -92,6 +113,17 @@
           loadingMs: button.dataset.aptoLoadingMs,
           successMs: button.dataset.aptoSuccessMs
         });
+      });
+    });
+
+    root.querySelectorAll(SLIDER_SELECTOR).forEach(function (input) {
+      syncApto3DSlider(input);
+
+      if (input.dataset.aptoSliderReady === 'true') return;
+
+      input.dataset.aptoSliderReady = 'true';
+      input.addEventListener('input', function () {
+        syncApto3DSlider(input);
       });
     });
   }
@@ -184,7 +216,8 @@
     initApto3DButtons: initApto3DButtons,
     resetAptoButton: resetAptoButton,
     setAptoButtonLoading: setAptoButtonLoading,
-    setAptoButtonSuccess: setAptoButtonSuccess
+    setAptoButtonSuccess: setAptoButtonSuccess,
+    syncApto3DSlider: syncApto3DSlider
   };
 
   if (document.readyState === 'loading') {
