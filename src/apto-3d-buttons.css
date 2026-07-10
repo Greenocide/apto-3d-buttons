@@ -378,22 +378,6 @@
   --apto-3d-active-edge: #881337;
 }
 
-.apto-3d-button.apto-3d-button--active-swap.is-active {
-  background-color: var(--apto-3d-active-edge);
-  color: var(--apto-3d-active-text);
-}
-
-.apto-3d-button.apto-3d-button--active-swap.is-active > .apto-3d-button__content,
-.apto-3d-button.apto-3d-button--active-swap.is-active:hover > .apto-3d-button__content,
-.apto-3d-button.apto-3d-button--active-swap.is-active:focus > .apto-3d-button__content {
-  background-color: var(--apto-3d-active-bg);
-  color: var(--apto-3d-active-text);
-}
-
-.apto-3d-button.apto-3d-button--active-swap.is-active .apto-3d-button__text {
-  color: inherit;
-}
-
 .apto-3d-button.apto-3d-button--sm {
   --apto-3d-padding: 9px 28px;
   --apto-3d-font-size: 1rem;

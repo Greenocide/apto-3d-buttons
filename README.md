@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.2/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.2/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -294,26 +294,14 @@ For real AJAX/form logic, call the global helper yourself:
 
 Add `data-apto-toggle`. The JS toggles `is-active` and keeps `aria-pressed` updated.
 
-Active toggle buttons remain at the pressed depth until toggled off. This applies to both `is-active` and `aria-pressed="true"` states without changing the button's outer dimensions.
-
-For text buttons that should swap background and text color when active, add `apto-3d-button--active-swap`:
+Active toggle buttons retain their normal background and text colors and remain at the pressed depth until toggled off. This applies to both `is-active` and `aria-pressed="true"` states without changing the button's outer dimensions.
 
 ```html
-<button class="apto-3d-button apto-3d-button--primary apto-3d-button--active-swap" type="button" aria-pressed="false" data-apto-toggle>
+<button class="apto-3d-button apto-3d-button--primary" type="button" aria-pressed="false" data-apto-toggle>
   <span class="apto-3d-button__content">
     <span class="apto-3d-button__text">Primary Toggle</span>
   </span>
 </button>
-```
-
-The normal color presets include active-swap colors with contrast. You can override them with:
-
-```css
-.apto-3d-button--brand {
-  --apto-3d-active-bg: #ffffff;
-  --apto-3d-active-text: #1e3a8a;
-  --apto-3d-active-edge: #bfdbfe;
-}
 ```
 
 ```html
@@ -382,9 +370,6 @@ Create your own class by setting CSS variables:
     --apto-3d-text: #ffffff;
     --apto-3d-focus: #1d4ed8;
     --apto-3d-active-icon: #bfdbfe;
-    --apto-3d-active-bg: #ffffff;
-    --apto-3d-active-text: #1e3a8a;
-    --apto-3d-active-edge: #bfdbfe;
     --apto-3d-spinner-track: rgba(255, 255, 255, 0.36);
     --apto-3d-success-mark: #ffffff;
   }
@@ -410,14 +395,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.4.2
+git tag v0.4.3
 git push origin main
-git push origin v0.4.2
+git push origin v0.4.3
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.2/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.2/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.3/dist/apto-3d-buttons.global.js" defer></script>
 ```
