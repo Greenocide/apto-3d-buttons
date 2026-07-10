@@ -197,6 +197,9 @@
       input.addEventListener('input', function () {
         syncApto3DSlider(input);
       });
+      input.addEventListener('change', function () {
+        syncApto3DSlider(input);
+      });
     });
 
     root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);

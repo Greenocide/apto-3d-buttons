@@ -263,6 +263,7 @@ export function initApto3DButtons(root = document) {
 
     input.dataset.aptoSliderReady = 'true';
     input.addEventListener('input', () => syncApto3DSlider(input));
+    input.addEventListener('change', () => syncApto3DSlider(input));
   });
 
   root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
