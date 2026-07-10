@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.0/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -128,11 +128,17 @@ The input is real, so its checked value works with HTML forms, WordPress forms, 
 </label>
 ```
 
-Native `checked` and `disabled` attributes work directly. JavaScript can also set the native indeterminate state:
+Native `checked` and `disabled` attributes work directly. For a three-state checkbox, add `data-apto-tristate` with its initial state:
 
-```js
-document.querySelector('#select-all').indeterminate = true;
+```html
+<label class="apto-3d-checkbox apto-3d-checkbox--amber">
+  <input type="checkbox" name="selection" data-apto-tristate="mixed">
+  <span class="apto-3d-checkbox__box" aria-hidden="true"><span class="apto-3d-checkbox__front"></span></span>
+  <span class="apto-3d-checkbox__label">Selection</span>
+</label>
 ```
+
+It cycles `mixed` → `unchecked` → `checked` → `mixed`. JavaScript can set a state directly with `window.Apto3DButtons.setAptoCheckboxState(input, 'mixed')`.
 
 ## Switch
 
@@ -170,7 +176,7 @@ Use a native range input inside `apto-3d-slider`. The required library JS initia
     <span class="apto-3d-slider__label">Volume</span>
     <output class="apto-3d-slider__output" data-apto-slider-output></output>
   </span>
-  <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%" data-apto-slider-ticks="10">
+  <input type="range" name="volume" min="0" max="100" value="65" data-apto-slider-suffix="%">
 </label>
 ```
 
@@ -178,7 +184,6 @@ The input supports native `min`, `max`, `step`, `value`, and `disabled` attribut
 
 - `data-apto-slider-prefix` and `data-apto-slider-suffix` format the output and bubble.
 - `data-apto-slider-aria-prefix` and `data-apto-slider-aria-suffix` override spoken formatting. A `%` suffix automatically becomes `percent`.
-- `data-apto-slider-ticks` uses the native `step`; a numeric value such as `data-apto-slider-ticks="10"` sets a separate tick interval.
 - `data-apto-slider-bubble="false"` disables the interaction bubble.
 - Add `dir="rtl"` to the slider or an ancestor for right-to-left fill, ticks, and bubble positioning.
 
@@ -195,7 +200,7 @@ Custom slider variables are `--apto-3d-slider-bg`, `--apto-3d-slider-edge`, `--a
 Use `apto-3d-range` for min/max selection. Both handles are real range inputs and submit their own form values.
 
 ```html
-<div class="apto-3d-range apto-3d-range--primary" data-apto-range data-apto-range-prefix="$" data-apto-range-ticks="20">
+<div class="apto-3d-range apto-3d-range--primary" data-apto-range data-apto-range-prefix="$">
   <div class="apto-3d-range__header">
     <span class="apto-3d-range__label">Price range</span>
     <output class="apto-3d-range__output" data-apto-range-output></output>
@@ -210,7 +215,7 @@ Use `apto-3d-range` for min/max selection. Both handles are real range inputs an
 </div>
 ```
 
-The handles cannot cross. Pointer dragging, rail clicks, keyboard controls, bubbles, ticks, RTL, outputs, and `aria-valuetext` are synchronized automatically. Formatting attributes are `data-apto-range-prefix`, `data-apto-range-suffix`, `data-apto-range-separator`, `data-apto-range-aria-prefix`, and `data-apto-range-aria-suffix`.
+The handles cannot cross. Pointer dragging, rail clicks, keyboard controls, bubbles, RTL, outputs, and `aria-valuetext` are synchronized automatically. Formatting attributes are `data-apto-range-prefix`, `data-apto-range-suffix`, `data-apto-range-separator`, `data-apto-range-aria-prefix`, and `data-apto-range-aria-suffix`.
 
 For direct JavaScript value changes, call:
 
@@ -431,14 +436,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.5.1
+git tag v0.5.2
 git push origin main
-git push origin v0.5.1
+git push origin v0.5.2
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.2/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.5.2/dist/apto-3d-buttons.global.js" defer></script>
 ```

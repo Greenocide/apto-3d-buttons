@@ -1260,30 +1260,6 @@
   transform: translate(-50%, 0);
 }
 
-.apto-3d-slider.apto-3d-slider .apto-3d-slider__ticks {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 14px;
-  z-index: 1;
-  display: block;
-  height: 5px;
-  pointer-events: none;
-}
-
-.apto-3d-slider.apto-3d-slider .apto-3d-slider__tick {
-  position: absolute;
-  left: var(--apto-3d-tick-position);
-  top: 0;
-  display: block;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--apto-3d-slider-off-edge);
-  opacity: 0.72;
-  transform: translateX(-50%);
-}
-
 .apto-3d-slider.apto-3d-slider:dir(rtl) {
   --apto-3d-slider-direction: to left;
 }
@@ -1300,12 +1276,6 @@
 
 .apto-3d-slider.apto-3d-slider:dir(rtl).is-interacting .apto-3d-slider__bubble {
   transform: translate(50%, 0);
-}
-
-.apto-3d-slider.apto-3d-slider:dir(rtl) .apto-3d-slider__tick {
-  right: var(--apto-3d-tick-position);
-  left: auto;
-  transform: translateX(50%);
 }
 
 /* Dual-handle native range for min/max selection. */
@@ -1549,30 +1519,6 @@
   transform: translate(-50%, 0);
 }
 
-.apto-3d-range.apto-3d-range .apto-3d-range__ticks {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 14px;
-  z-index: 2;
-  display: block;
-  height: 5px;
-  pointer-events: none;
-}
-
-.apto-3d-range.apto-3d-range .apto-3d-range__tick {
-  position: absolute;
-  left: var(--apto-3d-tick-position);
-  top: 0;
-  display: block;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--apto-3d-range-off-edge);
-  opacity: 0.72;
-  transform: translateX(-50%);
-}
-
 .apto-3d-range.apto-3d-range:has([data-apto-range-min]:disabled):has([data-apto-range-max]:disabled) {
   opacity: 0.72;
 }
@@ -1597,12 +1543,6 @@
 .apto-3d-range.apto-3d-range:dir(rtl).is-min-interacting .apto-3d-range__bubble[data-apto-range-bubble="min"],
 .apto-3d-range.apto-3d-range:dir(rtl).is-max-interacting .apto-3d-range__bubble[data-apto-range-bubble="max"] {
   transform: translate(50%, 0);
-}
-
-.apto-3d-range.apto-3d-range:dir(rtl) .apto-3d-range__tick {
-  right: var(--apto-3d-tick-position);
-  left: auto;
-  transform: translateX(50%);
 }
 
 /* Apply to any constrained element that should scroll. */

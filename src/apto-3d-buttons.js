@@ -4,6 +4,7 @@ const BUTTON_SELECTOR = '.apto-3d-button';
 const SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
 const RANGE_SELECTOR = '.apto-3d-range';
 const TABS_SELECTOR = '[data-apto-tabs]';
+const TRISTATE_SELECTOR = 'input[type="checkbox"][data-apto-tristate]';
 const SLIDER_PRESS_KEYS = new Set([
   'ArrowDown',
   'ArrowLeft',
@@ -212,66 +213,6 @@ function ensureAptoBubble(owner, selector, className, handle) {
   return bubble;
 }
 
-function getAptoTickStep(rawValue, input) {
-  if (rawValue && rawValue !== 'true') {
-    const customStep = Number(rawValue);
-    if (customStep > 0) return customStep;
-  }
-
-  if (input.step && input.step !== 'any') {
-    const inputStep = Number(input.step);
-    if (inputStep > 0) return inputStep;
-  }
-
-  return 1;
-}
-
-function renderAptoTicks(owner, input, attribute, className, tickClassName) {
-  const rawValue = owner.hasAttribute(attribute)
-    ? owner.getAttribute(attribute)
-    : input.getAttribute(attribute);
-  const existing = owner.querySelector(`.${className}`);
-
-  if (rawValue == null || rawValue === 'false') {
-    existing?.remove();
-    return;
-  }
-
-  const { max, min } = getAptoRangeMetrics(input);
-  const step = getAptoTickStep(rawValue, input);
-  const signature = `${min}:${max}:${step}`;
-
-  if (existing?.dataset.aptoTickSignature === signature) return;
-
-  existing?.remove();
-
-  const count = Math.floor((max - min) / step) + 1;
-  if (count < 2 || count > 101) return;
-
-  const ticks = document.createElement('span');
-  ticks.className = className;
-  ticks.dataset.aptoTickSignature = signature;
-  ticks.setAttribute('aria-hidden', 'true');
-
-  for (let index = 0; index < count; index += 1) {
-    const tick = document.createElement('i');
-    const value = min + (index * step);
-    const position = ((value - min) / (max - min)) * 100;
-    tick.className = tickClassName;
-    tick.style.setProperty('--apto-3d-tick-position', `${position}%`);
-    ticks.append(tick);
-  }
-
-  if ((min + ((count - 1) * step)) < max) {
-    const tick = document.createElement('i');
-    tick.className = tickClassName;
-    tick.style.setProperty('--apto-3d-tick-position', '100%');
-    ticks.append(tick);
-  }
-
-  owner.append(ticks);
-}
-
 function setAptoSliderPressState(input, active, ownerClass) {
   const owner = input.closest('.apto-3d-slider, .apto-3d-range');
 
@@ -350,13 +291,6 @@ export function syncApto3DSlider(input) {
     slider.querySelector('.apto-3d-slider__bubble')?.remove();
   }
 
-  renderAptoTicks(
-    slider,
-    input,
-    'data-apto-slider-ticks',
-    'apto-3d-slider__ticks',
-    'apto-3d-slider__tick'
-  );
 }
 
 function getAptoRangeFormattedValue(range, value, aria = false) {
@@ -435,14 +369,6 @@ export function syncApto3DRange(range, changedInput = null) {
   minBubble.textContent = minText;
   maxBubble.textContent = maxText;
 
-  renderAptoTicks(
-    range,
-    minInput,
-    'data-apto-range-ticks',
-    'apto-3d-range__ticks',
-    'apto-3d-range__tick'
-  );
-
   if (changedInput === minInput) {
     minInput.style.zIndex = '5';
     maxInput.style.zIndex = '4';
@@ -450,6 +376,47 @@ export function syncApto3DRange(range, changedInput = null) {
     minInput.style.zIndex = '4';
     maxInput.style.zIndex = '5';
   }
+}
+
+export function setAptoCheckboxState(input, state) {
+  if (!input) return;
+
+  const normalized = ['checked', 'mixed', 'unchecked'].includes(state)
+    ? state
+    : 'unchecked';
+
+  input.checked = normalized === 'checked';
+  input.indeterminate = normalized === 'mixed';
+  input.dataset.aptoTristate = normalized;
+  input.setAttribute('aria-checked', normalized === 'mixed' ? 'mixed' : String(input.checked));
+}
+
+function initAptoTriState(input) {
+  if (input.dataset.aptoTristateReady === 'true') return;
+
+  const configuredState = input.dataset.aptoTristate;
+  const initialState = ['checked', 'mixed', 'unchecked'].includes(configuredState)
+    ? configuredState
+    : (input.indeterminate ? 'mixed' : (input.checked ? 'checked' : 'unchecked'));
+
+  input.dataset.aptoTristateReady = 'true';
+  setAptoCheckboxState(input, initialState);
+
+  input.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const current = input.dataset.aptoTristate;
+    const next = current === 'mixed'
+      ? 'unchecked'
+      : (current === 'unchecked' ? 'checked' : 'mixed');
+
+    setAptoCheckboxState(input, next);
+    window.clearTimeout(input.aptoTristateTimer);
+    input.aptoTristateTimer = window.setTimeout(() => {
+      setAptoCheckboxState(input, next);
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, 0);
+  });
 }
 
 function getAptoSteppedValue(input, rawValue) {
@@ -620,6 +587,7 @@ export function initApto3DButtons(root = document) {
   });
 
   root.querySelectorAll(RANGE_SELECTOR).forEach(initApto3DRange);
+  root.querySelectorAll(TRISTATE_SELECTOR).forEach(initAptoTriState);
   root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
 }
 
@@ -629,6 +597,7 @@ if (typeof window !== 'undefined') {
     completeButtonWithSuccess,
     initApto3DButtons,
     resetAptoButton,
+    setAptoCheckboxState,
     setAptoButtonLoading,
     setAptoButtonSuccess,
     syncApto3DRange,
