@@ -742,6 +742,292 @@
 .apto-3d-checkbox.apto-3d-checkbox--slate,
 .apto-3d-switch.apto-3d-switch--slate { --apto-3d-control-bg: #475569; --apto-3d-control-edge: #1e293b; --apto-3d-control-focus: #334155; }
 
+/* Native radio input with the same fixed-box press motion. */
+.apto-3d-radio.apto-3d-radio {
+  --apto-3d-radio-bg: #5b7cff;
+  --apto-3d-radio-edge: #3348b4;
+  --apto-3d-radio-focus: #2d4bff;
+  --apto-3d-radio-mark: #ffffff;
+  --apto-3d-radio-off-bg: #e2e8f0;
+  --apto-3d-radio-off-edge: #94a3b8;
+  --apto-3d-radio-lift: 4px;
+  --apto-3d-radio-pressed-edge: 1.5px;
+
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  background-image: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.apto-3d-radio.apto-3d-radio *,
+.apto-3d-radio.apto-3d-radio *::before,
+.apto-3d-radio.apto-3d-radio *::after {
+  box-sizing: border-box;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.apto-3d-radio.apto-3d-radio > input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.apto-3d-radio.apto-3d-radio > .apto-3d-radio__control {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--apto-3d-radio-off-edge);
+  background-image: none;
+  box-shadow: none;
+}
+
+.apto-3d-radio.apto-3d-radio .apto-3d-radio__front {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--apto-3d-radio-off-bg);
+  background-image: none;
+  transform: translateY(calc(var(--apto-3d-radio-lift) * -1));
+  transition: background-color 120ms ease, transform 100ms ease;
+}
+
+.apto-3d-radio.apto-3d-radio .apto-3d-radio__front::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--apto-3d-radio-mark);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition: opacity 100ms ease, transform 140ms ease;
+}
+
+.apto-3d-radio.apto-3d-radio:active > input[type="radio"]:not(:disabled) + .apto-3d-radio__control > .apto-3d-radio__front {
+  transform: translateY(calc(var(--apto-3d-radio-pressed-edge) * -1));
+}
+
+.apto-3d-radio.apto-3d-radio > input[type="radio"]:checked + .apto-3d-radio__control {
+  background-color: var(--apto-3d-radio-edge);
+}
+
+.apto-3d-radio.apto-3d-radio > input[type="radio"]:checked + .apto-3d-radio__control > .apto-3d-radio__front {
+  background-color: var(--apto-3d-radio-bg);
+}
+
+.apto-3d-radio.apto-3d-radio > input[type="radio"]:checked + .apto-3d-radio__control .apto-3d-radio__front::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.apto-3d-radio.apto-3d-radio > input[type="radio"]:focus-visible + .apto-3d-radio__control {
+  outline: 2px solid var(--apto-3d-radio-focus);
+  outline-offset: 4px;
+}
+
+.apto-3d-radio.apto-3d-radio:has(> input[type="radio"]:disabled) {
+  cursor: default;
+  opacity: 0.58;
+}
+
+.apto-3d-radio.apto-3d-radio > .apto-3d-radio__label {
+  display: block;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* Accessible view tabs with radio-like single selection. */
+.apto-3d-tabs.apto-3d-tabs {
+  --apto-3d-tab-bg: #5b7cff;
+  --apto-3d-tab-edge: #3348b4;
+  --apto-3d-tab-text: #ffffff;
+  --apto-3d-tab-focus: #2d4bff;
+  --apto-3d-tab-off-bg: #ffffff;
+  --apto-3d-tab-off-edge: #cbd5e1;
+  --apto-3d-tab-off-text: #334155;
+  --apto-3d-tab-lift: 4px;
+  --apto-3d-tab-pressed-edge: 1.5px;
+
+  box-sizing: border-box;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+}
+
+.apto-3d-tabs.apto-3d-tabs *,
+.apto-3d-tabs.apto-3d-tabs *::before,
+.apto-3d-tabs.apto-3d-tabs *::after {
+  box-sizing: border-box;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.apto-3d-tabs.apto-3d-tabs > .apto-3d-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 4px 0 0;
+  border: 0;
+  background: transparent;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--apto-3d-tab-off-edge);
+  background-image: none;
+  color: var(--apto-3d-tab-off-text);
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  outline: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab__front {
+  display: block;
+  min-width: 92px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--apto-3d-tab-off-bg);
+  background-image: none;
+  color: inherit;
+  line-height: 1;
+  transform: translateY(calc(var(--apto-3d-tab-lift) * -1));
+  transition: background-color 120ms ease, color 120ms ease, transform 100ms ease;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab:hover,
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab:focus {
+  background-image: none;
+  color: var(--apto-3d-tab-off-text);
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab:active:not(:disabled) > .apto-3d-tab__front {
+  transform: translateY(calc(var(--apto-3d-tab-pressed-edge) * -1));
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"] {
+  background-color: var(--apto-3d-tab-edge);
+  color: var(--apto-3d-tab-text);
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"] > .apto-3d-tab__front {
+  background-color: var(--apto-3d-tab-bg);
+  color: var(--apto-3d-tab-text);
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"]:hover,
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab[aria-selected="true"]:focus {
+  color: var(--apto-3d-tab-text);
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab:focus-visible {
+  outline: 2px solid var(--apto-3d-tab-focus);
+  outline-offset: 4px;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tab:disabled {
+  cursor: default;
+  opacity: 0.52;
+}
+
+.apto-3d-tabs.apto-3d-tabs > .apto-3d-tabpanels {
+  margin-top: 16px;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tabpanel {
+  color: inherit;
+  font: inherit;
+  line-height: 1.5;
+}
+
+.apto-3d-tabs.apto-3d-tabs .apto-3d-tabpanel[hidden] {
+  display: none !important;
+}
+
+.apto-3d-radio.apto-3d-radio--rose { --apto-3d-radio-bg: hsl(345deg 100% 47%); --apto-3d-radio-edge: hsl(340deg 100% 32%); --apto-3d-radio-focus: hsl(345deg 100% 38%); }
+.apto-3d-tabs.apto-3d-tabs--rose { --apto-3d-tab-bg: hsl(345deg 100% 47%); --apto-3d-tab-edge: hsl(340deg 100% 32%); --apto-3d-tab-focus: hsl(345deg 100% 38%); }
+.apto-3d-radio.apto-3d-radio--red,
+.apto-3d-radio.apto-3d-radio--danger { --apto-3d-radio-bg: #ef4444; --apto-3d-radio-edge: #991b1b; --apto-3d-radio-focus: #dc2626; }
+.apto-3d-tabs.apto-3d-tabs--red,
+.apto-3d-tabs.apto-3d-tabs--danger { --apto-3d-tab-bg: #ef4444; --apto-3d-tab-edge: #991b1b; --apto-3d-tab-focus: #dc2626; }
+.apto-3d-radio.apto-3d-radio--orange { --apto-3d-radio-bg: #f97316; --apto-3d-radio-edge: #9a3412; --apto-3d-radio-focus: #ea580c; }
+.apto-3d-tabs.apto-3d-tabs--orange { --apto-3d-tab-bg: #f97316; --apto-3d-tab-edge: #9a3412; --apto-3d-tab-focus: #ea580c; }
+.apto-3d-radio.apto-3d-radio--amber { --apto-3d-radio-bg: #f59e0b; --apto-3d-radio-edge: #92400e; --apto-3d-radio-mark: #2b1600; --apto-3d-radio-focus: #d97706; }
+.apto-3d-tabs.apto-3d-tabs--amber { --apto-3d-tab-bg: #f59e0b; --apto-3d-tab-edge: #92400e; --apto-3d-tab-text: #2b1600; --apto-3d-tab-focus: #d97706; }
+.apto-3d-radio.apto-3d-radio--green,
+.apto-3d-radio.apto-3d-radio--success { --apto-3d-radio-bg: #22b573; --apto-3d-radio-edge: #116e45; --apto-3d-radio-focus: #168f5a; }
+.apto-3d-tabs.apto-3d-tabs--green,
+.apto-3d-tabs.apto-3d-tabs--success { --apto-3d-tab-bg: #22b573; --apto-3d-tab-edge: #116e45; --apto-3d-tab-focus: #168f5a; }
+.apto-3d-radio.apto-3d-radio--cyan { --apto-3d-radio-bg: #0891b2; --apto-3d-radio-edge: #155e75; --apto-3d-radio-focus: #0e7490; }
+.apto-3d-tabs.apto-3d-tabs--cyan { --apto-3d-tab-bg: #0891b2; --apto-3d-tab-edge: #155e75; --apto-3d-tab-focus: #0e7490; }
+.apto-3d-radio.apto-3d-radio--blue,
+.apto-3d-radio.apto-3d-radio--primary { --apto-3d-radio-bg: #5b7cff; --apto-3d-radio-edge: #3348b4; --apto-3d-radio-focus: #2d4bff; }
+.apto-3d-tabs.apto-3d-tabs--blue,
+.apto-3d-tabs.apto-3d-tabs--primary { --apto-3d-tab-bg: #5b7cff; --apto-3d-tab-edge: #3348b4; --apto-3d-tab-focus: #2d4bff; }
+.apto-3d-radio.apto-3d-radio--violet { --apto-3d-radio-bg: #8b5cf6; --apto-3d-radio-edge: #5b21b6; --apto-3d-radio-focus: #7c3aed; }
+.apto-3d-tabs.apto-3d-tabs--violet { --apto-3d-tab-bg: #8b5cf6; --apto-3d-tab-edge: #5b21b6; --apto-3d-tab-focus: #7c3aed; }
+.apto-3d-radio.apto-3d-radio--slate { --apto-3d-radio-bg: #475569; --apto-3d-radio-edge: #1e293b; --apto-3d-radio-focus: #334155; }
+.apto-3d-tabs.apto-3d-tabs--slate { --apto-3d-tab-bg: #475569; --apto-3d-tab-edge: #1e293b; --apto-3d-tab-focus: #334155; }
+
 /* Native range slider with a JS-synced filled track. */
 .apto-3d-slider.apto-3d-slider {
   --apto-3d-slider-bg: #5b7cff;
@@ -980,6 +1266,8 @@
   .apto-3d-button.apto-3d-button::after,
   .apto-3d-checkbox.apto-3d-checkbox *,
   .apto-3d-switch.apto-3d-switch *,
+  .apto-3d-radio.apto-3d-radio *,
+  .apto-3d-tabs.apto-3d-tabs *,
   .apto-3d-slider.apto-3d-slider * {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;

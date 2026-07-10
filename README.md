@@ -7,8 +7,8 @@ Reusable push buttons loaded from jsDelivr. Include both files on every site: th
 Paste these two tags in your page, WordPress header/footer, Custom HTML area, or site builder embed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.0/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.0/dist/apto-3d-buttons.global.js" defer></script>
 ```
 
 Use the version tag URL in production. For quick testing, you can use `@main`, but tagged versions are safer.
@@ -196,6 +196,56 @@ Custom scrollbar variables are `--apto-3d-scrollbar-bg`, `--apto-3d-scrollbar-ed
 
 Sliders and scrollbars support the same `rose`, `red`, `orange`, `amber`, `green`, `cyan`, `blue`, `violet`, `slate`, `primary`, `success`, and `danger` preset names.
 
+## Radio Selection
+
+Use real radio inputs with a shared `name`. Their values submit normally and native arrow-key selection continues to work.
+
+```html
+<fieldset>
+  <legend>Choose a plan</legend>
+
+  <label class="apto-3d-radio apto-3d-radio--primary">
+    <input type="radio" name="plan" value="starter" checked>
+    <span class="apto-3d-radio__control" aria-hidden="true">
+      <span class="apto-3d-radio__front"></span>
+    </span>
+    <span class="apto-3d-radio__label">Starter</span>
+  </label>
+
+  <label class="apto-3d-radio apto-3d-radio--success">
+    <input type="radio" name="plan" value="pro">
+    <span class="apto-3d-radio__control" aria-hidden="true">
+      <span class="apto-3d-radio__front"></span>
+    </span>
+    <span class="apto-3d-radio__label">Pro</span>
+  </label>
+</fieldset>
+```
+
+## Tabs
+
+Tabs provide radio-like single selection for switching views. The required JS updates `aria-selected`, panel visibility, focus, and arrow-key navigation.
+
+```html
+<div class="apto-3d-tabs apto-3d-tabs--primary" data-apto-tabs>
+  <div class="apto-3d-tablist" role="tablist" aria-label="Account sections">
+    <button class="apto-3d-tab" type="button" role="tab" id="profile-tab" aria-controls="profile-panel" aria-selected="true" data-apto-tab>
+      <span class="apto-3d-tab__front">Profile</span>
+    </button>
+    <button class="apto-3d-tab" type="button" role="tab" id="security-tab" aria-controls="security-panel" aria-selected="false" data-apto-tab>
+      <span class="apto-3d-tab__front">Security</span>
+    </button>
+  </div>
+
+  <div class="apto-3d-tabpanels">
+    <section class="apto-3d-tabpanel" id="profile-panel" role="tabpanel" aria-labelledby="profile-tab">Profile content</section>
+    <section class="apto-3d-tabpanel" id="security-panel" role="tabpanel" aria-labelledby="security-tab" hidden>Security content</section>
+  </div>
+</div>
+```
+
+Radio and tab presets use the same color names as the other controls. Custom radios use `--apto-3d-radio-bg`, `--apto-3d-radio-edge`, `--apto-3d-radio-focus`, and `--apto-3d-radio-mark`. Custom tabs use `--apto-3d-tab-bg`, `--apto-3d-tab-edge`, `--apto-3d-tab-text`, and `--apto-3d-tab-focus`.
+
 ## Loading Button
 
 For a simple loading-to-success interaction, add `data-apto-complete`:
@@ -358,14 +408,14 @@ When files change, commit, tag a new version, and push:
 ```bash
 git add .
 git commit -m "Update Apto 3D buttons"
-git tag v0.3.1
+git tag v0.4.1
 git push origin main
-git push origin v0.3.1
+git push origin v0.4.1
 ```
 
 Then update site URLs to the new tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.1/dist/apto-3d-buttons.css">
-<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.1/dist/apto-3d-buttons.global.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.1/dist/apto-3d-buttons.css">
+<script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.1/dist/apto-3d-buttons.global.js" defer></script>
 ```

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apto 3D Buttons CDN Usage</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.css">
-  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.3.0/dist/apto-3d-buttons.global.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.0/dist/apto-3d-buttons.css">
+  <script src="https://cdn.jsdelivr.net/gh/Greenocide/apto-3d-buttons@v0.4.0/dist/apto-3d-buttons.global.js" defer></script>
 </head>
 <body>
   <button class="apto-3d-button apto-3d-button--violet" type="button">
@@ -42,6 +42,23 @@
 
   <div class="apto-3d-scrollbar apto-3d-scrollbar--violet" style="max-height: 120px;">
     <p>Scrollable content</p><p>More content</p><p>More content</p><p>More content</p>
+  </div>
+
+  <label class="apto-3d-radio apto-3d-radio--primary">
+    <input type="radio" name="plan" value="starter" checked>
+    <span class="apto-3d-radio__control" aria-hidden="true"><span class="apto-3d-radio__front"></span></span>
+    <span class="apto-3d-radio__label">Starter plan</span>
+  </label>
+
+  <div class="apto-3d-tabs apto-3d-tabs--primary" data-apto-tabs>
+    <div class="apto-3d-tablist" role="tablist" aria-label="Example views">
+      <button class="apto-3d-tab" type="button" role="tab" id="one-tab" aria-controls="one-panel" aria-selected="true" data-apto-tab><span class="apto-3d-tab__front">One</span></button>
+      <button class="apto-3d-tab" type="button" role="tab" id="two-tab" aria-controls="two-panel" aria-selected="false" data-apto-tab><span class="apto-3d-tab__front">Two</span></button>
+    </div>
+    <div class="apto-3d-tabpanels">
+      <section class="apto-3d-tabpanel" id="one-panel" role="tabpanel" aria-labelledby="one-tab">First view</section>
+      <section class="apto-3d-tabpanel" id="two-panel" role="tabpanel" aria-labelledby="two-tab" hidden>Second view</section>
+    </div>
   </div>
 </body>
 </html>

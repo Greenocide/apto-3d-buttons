@@ -3,6 +3,7 @@
   var COMPLETE_SELECTOR = '[data-apto-complete]';
   var BUTTON_SELECTOR = '.apto-3d-button';
   var SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
+  var TABS_SELECTOR = '[data-apto-tabs]';
   var ACTIVE_VALUE_ATTRIBUTES = [
     ['aptoActiveIcon', 'activeIcon'],
     ['aptoActiveFill', 'activeFill'],
@@ -80,6 +81,77 @@
     }
   }
 
+  function activateAptoTab(tabs, tab, focus) {
+    if (!tabs || !tab || tab.disabled) return;
+    focus = focus === true;
+
+    var tablist = tabs.querySelector(':scope > .apto-3d-tablist');
+    var tabButtons = tablist ? Array.prototype.slice.call(tablist.querySelectorAll('[data-apto-tab]')) : [];
+
+    tabButtons.forEach(function (button) {
+      var active = button === tab;
+      var panelId = button.getAttribute('aria-controls');
+      var panel = panelId ? document.getElementById(panelId) : null;
+
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+
+      if (panel && tabs.contains(panel)) {
+        panel.hidden = !active;
+      }
+    });
+
+    if (focus) tab.focus();
+  }
+
+  function initApto3DTabs(tabs) {
+    if (tabs.dataset.aptoTabsReady === 'true') return;
+
+    var tablist = tabs.querySelector(':scope > .apto-3d-tablist');
+    if (!tablist) return;
+
+    var tabButtons = Array.prototype.slice.call(tablist.querySelectorAll('[data-apto-tab]'));
+    var initialTab = tabButtons.find(function (tab) {
+      return tab.getAttribute('aria-selected') === 'true' && !tab.disabled;
+    }) || tabButtons.find(function (tab) {
+      return !tab.disabled;
+    });
+
+    if (!initialTab) return;
+
+    tabs.dataset.aptoTabsReady = 'true';
+    activateAptoTab(tabs, initialTab);
+
+    tabButtons.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        activateAptoTab(tabs, tab);
+      });
+
+      tab.addEventListener('keydown', function (event) {
+        var enabledTabs = tabButtons.filter(function (button) {
+          return !button.disabled;
+        });
+        var currentIndex = enabledTabs.indexOf(tab);
+        var nextTab = null;
+
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          nextTab = enabledTabs[(currentIndex + 1) % enabledTabs.length];
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          nextTab = enabledTabs[(currentIndex - 1 + enabledTabs.length) % enabledTabs.length];
+        } else if (event.key === 'Home') {
+          nextTab = enabledTabs[0];
+        } else if (event.key === 'End') {
+          nextTab = enabledTabs[enabledTabs.length - 1];
+        }
+
+        if (nextTab) {
+          event.preventDefault();
+          activateAptoTab(tabs, nextTab, true);
+        }
+      });
+    });
+  }
+
   function initApto3DButtons(root) {
     root = root || document;
 
@@ -126,6 +198,8 @@
         syncApto3DSlider(input);
       });
     });
+
+    root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
   }
 
   function syncActiveColorVariables(source, target) {
@@ -212,6 +286,7 @@
   }
 
   window.Apto3DButtons = {
+    activateAptoTab: activateAptoTab,
     completeButtonWithSuccess: completeButtonWithSuccess,
     initApto3DButtons: initApto3DButtons,
     resetAptoButton: resetAptoButton,

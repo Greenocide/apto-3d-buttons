@@ -76,6 +76,33 @@
     width: min(100%, 420px);
   }
 
+  .radio-fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0;
+    padding: 4px 0 0;
+    border: 0;
+  }
+
+  .radio-fieldset legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .demo-tabs {
+    max-width: 560px;
+  }
+
+  .demo-tab-copy {
+    margin: 0;
+    color: #555b69;
+  }
+
   .demo-scroll-area {
     width: min(100%, 420px);
     height: 150px;
@@ -93,7 +120,7 @@
 
 <main class="page">
   <h1>Apto 3D Buttons</h1>
-  <p class="lede">Reusable 3D buttons, checkboxes, switches, sliders, and scrollbars with a flatter edge, no drop shadows, native form behavior, icon states, and a loading to success flow.</p>
+  <p class="lede">Reusable 3D buttons, checkboxes, radios, switches, tabs, sliders, and scrollbars with a flatter edge, no drop shadows, native form behavior, icon states, and a loading to success flow.</p>
 
   <section>
     <p class="section-label">Text buttons</p>
@@ -364,6 +391,63 @@
       </label>
     </div>
     <p class="note">Switches are native checkboxes with <code>role="switch"</code>. Their values submit with forms without any library-specific JavaScript.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Radio selection</p>
+    <fieldset class="radio-fieldset">
+      <legend>Choose a plan</legend>
+      <label class="apto-3d-radio apto-3d-radio--primary">
+        <input type="radio" name="plan" value="starter" checked>
+        <span class="apto-3d-radio__control" aria-hidden="true"><span class="apto-3d-radio__front"></span></span>
+        <span class="apto-3d-radio__label">Starter</span>
+      </label>
+      <label class="apto-3d-radio apto-3d-radio--success">
+        <input type="radio" name="plan" value="pro">
+        <span class="apto-3d-radio__control" aria-hidden="true"><span class="apto-3d-radio__front"></span></span>
+        <span class="apto-3d-radio__label">Pro</span>
+      </label>
+      <label class="apto-3d-radio apto-3d-radio--amber">
+        <input type="radio" name="plan" value="team">
+        <span class="apto-3d-radio__control" aria-hidden="true"><span class="apto-3d-radio__front"></span></span>
+        <span class="apto-3d-radio__label">Team</span>
+      </label>
+      <label class="apto-3d-radio apto-3d-radio--slate">
+        <input type="radio" name="plan" value="legacy" disabled>
+        <span class="apto-3d-radio__control" aria-hidden="true"><span class="apto-3d-radio__front"></span></span>
+        <span class="apto-3d-radio__label">Disabled</span>
+      </label>
+    </fieldset>
+    <p class="note">These are real radio inputs sharing a normal <code>name</code>, so forms and browser keyboard behavior work without custom JavaScript.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Tabs</p>
+    <div class="apto-3d-tabs apto-3d-tabs--primary demo-tabs" data-apto-tabs>
+      <div class="apto-3d-tablist" role="tablist" aria-label="Account sections">
+        <button class="apto-3d-tab" type="button" role="tab" id="profile-tab" aria-controls="profile-panel" aria-selected="true" data-apto-tab>
+          <span class="apto-3d-tab__front">Profile</span>
+        </button>
+        <button class="apto-3d-tab" type="button" role="tab" id="security-tab" aria-controls="security-panel" aria-selected="false" data-apto-tab>
+          <span class="apto-3d-tab__front">Security</span>
+        </button>
+        <button class="apto-3d-tab" type="button" role="tab" id="billing-tab" aria-controls="billing-panel" aria-selected="false" data-apto-tab>
+          <span class="apto-3d-tab__front">Billing</span>
+        </button>
+      </div>
+      <div class="apto-3d-tabpanels">
+        <section class="apto-3d-tabpanel" id="profile-panel" role="tabpanel" aria-labelledby="profile-tab">
+          <p class="demo-tab-copy">Update your public name, avatar, and contact details.</p>
+        </section>
+        <section class="apto-3d-tabpanel" id="security-panel" role="tabpanel" aria-labelledby="security-tab" hidden>
+          <p class="demo-tab-copy">Manage passwords, passkeys, and active sessions.</p>
+        </section>
+        <section class="apto-3d-tabpanel" id="billing-panel" role="tabpanel" aria-labelledby="billing-tab" hidden>
+          <p class="demo-tab-copy">Review invoices and update your payment method.</p>
+        </section>
+      </div>
+    </div>
+    <p class="note">Tabs switch one visible panel at a time. Arrow keys, Home, and End move selection and focus like a single-choice control.</p>
   </section>
 
   <section>

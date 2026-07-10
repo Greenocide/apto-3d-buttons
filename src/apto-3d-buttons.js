@@ -2,6 +2,7 @@ const TOGGLE_SELECTOR = '[data-apto-toggle]';
 const COMPLETE_SELECTOR = '[data-apto-complete]';
 const BUTTON_SELECTOR = '.apto-3d-button';
 const SLIDER_SELECTOR = '.apto-3d-slider input[type="range"]';
+const TABS_SELECTOR = '[data-apto-tabs]';
 const ACTIVE_VALUE_ATTRIBUTES = [
   ['aptoActiveIcon', 'activeIcon'],
   ['aptoActiveFill', 'activeFill'],
@@ -167,6 +168,68 @@ export function syncApto3DSlider(input) {
   }
 }
 
+export function activateAptoTab(tabs, tab, focus = false) {
+  if (!tabs || !tab || tab.disabled) return;
+
+  const tablist = tabs.querySelector(':scope > .apto-3d-tablist');
+  const tabButtons = tablist ? [...tablist.querySelectorAll('[data-apto-tab]')] : [];
+
+  tabButtons.forEach((button) => {
+    const active = button === tab;
+    const panelId = button.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+
+    button.setAttribute('aria-selected', String(active));
+    button.tabIndex = active ? 0 : -1;
+
+    if (panel && tabs.contains(panel)) {
+      panel.hidden = !active;
+    }
+  });
+
+  if (focus) tab.focus();
+}
+
+function initApto3DTabs(tabs) {
+  if (tabs.dataset.aptoTabsReady === 'true') return;
+
+  const tablist = tabs.querySelector(':scope > .apto-3d-tablist');
+  if (!tablist) return;
+
+  const tabButtons = [...tablist.querySelectorAll('[data-apto-tab]')];
+  const initialTab = tabButtons.find((tab) => tab.getAttribute('aria-selected') === 'true' && !tab.disabled)
+    || tabButtons.find((tab) => !tab.disabled);
+
+  if (!initialTab) return;
+
+  tabs.dataset.aptoTabsReady = 'true';
+  activateAptoTab(tabs, initialTab);
+
+  tabButtons.forEach((tab) => {
+    tab.addEventListener('click', () => activateAptoTab(tabs, tab));
+    tab.addEventListener('keydown', (event) => {
+      const enabledTabs = tabButtons.filter((button) => !button.disabled);
+      const currentIndex = enabledTabs.indexOf(tab);
+      let nextTab = null;
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        nextTab = enabledTabs[(currentIndex + 1) % enabledTabs.length];
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        nextTab = enabledTabs[(currentIndex - 1 + enabledTabs.length) % enabledTabs.length];
+      } else if (event.key === 'Home') {
+        nextTab = enabledTabs[0];
+      } else if (event.key === 'End') {
+        nextTab = enabledTabs[enabledTabs.length - 1];
+      }
+
+      if (nextTab) {
+        event.preventDefault();
+        activateAptoTab(tabs, nextTab, true);
+      }
+    });
+  });
+}
+
 export function initApto3DButtons(root = document) {
   applyAptoButtonOptions(root);
 
@@ -201,10 +264,13 @@ export function initApto3DButtons(root = document) {
     input.dataset.aptoSliderReady = 'true';
     input.addEventListener('input', () => syncApto3DSlider(input));
   });
+
+  root.querySelectorAll(TABS_SELECTOR).forEach(initApto3DTabs);
 }
 
 if (typeof window !== 'undefined') {
   window.Apto3DButtons = {
+    activateAptoTab,
     completeButtonWithSuccess,
     initApto3DButtons,
     resetAptoButton,
